@@ -83,7 +83,7 @@ namespace WebApp.Models
         /// <param name="color">The color of the product.</param>
         /// <param name="metalType">The type of metal of the product.</param>
 
-        public Product(string name, string image, string description, decimal price, WebApp.Enum.Category category,
+        public Product(string name, string image, string description, decimal price, WebAppEnum.Category category,
                        string color, WebAppEnum.SizeRingsBracelets size, string metalType)
             : this()
         {

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EnumWebApp\WebApp.Enum.csproj" />
     <ProjectReference Include="..\WebApp.Interfaces\WebApp.Interfaces.csproj" />
   </ItemGroup>
 
