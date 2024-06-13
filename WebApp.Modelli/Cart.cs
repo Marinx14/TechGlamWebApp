@@ -12,4 +12,8 @@ namespace WebApp.Modelli
         public string IdUser { get; set; }
         public virtual ICollection<ClonedProduct> clonedProduct { get; set; } = null;
     }
+
+    public class ClonedProduct
+    {
+    }
 }
