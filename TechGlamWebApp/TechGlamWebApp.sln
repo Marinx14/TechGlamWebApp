@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechGlamWebApp", "TechGlamWebApp\TechGlamWebApp.csproj", "{D5C1CB8D-0F13-41B6-B365-5843F4421B9A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechGlamWebApp", "TechGlamWebApp\TechGlamWebApp.csproj", "{D5C1CB8D-0F13-41B6-B365-5843F4421B9A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Models", "WebApp.Models\WebApp.Models.csproj", "{50476206-AB42-4981-A384-BFAD6F8D02D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Models", "WebApp.Models\WebApp.Models.csproj", "{50476206-AB42-4981-A384-BFAD6F8D02D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Interfaces", "WebApp.Interfaces\WebApp.Interfaces.csproj", "{CCBC4635-B52C-4B3F-AE80-BE6F34769CE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Interfaces", "WebApp.Interfaces\WebApp.Interfaces.csproj", "{CCBC4635-B52C-4B3F-AE80-BE6F34769CE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Enum", "EnumWebApp\WebApp.Enum.csproj", "{8F74DAE0-ADC3-46DC-BF7C-52FF99B9F8F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Enum", "EnumWebApp\WebApp.Enum.csproj", "{8F74DAE0-ADC3-46DC-BF7C-52FF99B9F8F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Services", "WebApp.Services\WebApp.Services.csproj", "{28889F4D-E700-4A6B-887F-7E4FCD7B2ACA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.DbContext", "WebApp.DbContext\WebApp.DbContext.csproj", "{5A3878C7-E99C-4C00-B2B6-998ED6B7B04A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.DbContext", "App.DbContext\App.DbContext.csproj", "{B072FA38-1F59-4938-9F65-B9D08B2F2422}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +35,10 @@ Global
 		{8F74DAE0-ADC3-46DC-BF7C-52FF99B9F8F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F74DAE0-ADC3-46DC-BF7C-52FF99B9F8F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F74DAE0-ADC3-46DC-BF7C-52FF99B9F8F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28889F4D-E700-4A6B-887F-7E4FCD7B2ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28889F4D-E700-4A6B-887F-7E4FCD7B2ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28889F4D-E700-4A6B-887F-7E4FCD7B2ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28889F4D-E700-4A6B-887F-7E4FCD7B2ACA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A3878C7-E99C-4C00-B2B6-998ED6B7B04A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A3878C7-E99C-4C00-B2B6-998ED6B7B04A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A3878C7-E99C-4C00-B2B6-998ED6B7B04A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A3878C7-E99C-4C00-B2B6-998ED6B7B04A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B072FA38-1F59-4938-9F65-B9D08B2F2422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B072FA38-1F59-4938-9F65-B9D08B2F2422}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B072FA38-1F59-4938-9F65-B9D08B2F2422}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B072FA38-1F59-4938-9F65-B9D08B2F2422}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

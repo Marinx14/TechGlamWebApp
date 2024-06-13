@@ -1,0 +1,13 @@
+@model WebApp.ViewModels.ProductViewModel
+
+<h2>@Model.Name</h2>
+
+<div>
+    <img src="@Model.Image" alt="@Model.Name" />
+    <p>@Model.Description</p>
+    <p>Price: @Model.Price</p>
+    <p>Category: @Model.Category</p>
+    <p>Size: @(Model.Category == "Watches" ? Model.SizeWatches.ToString() : Model.SizeRingsBracelets.ToString())</p>
+    <p>Color: @Model.Color</p>
+    <p>Metal: @Model.MetalType</p>
+</div>
