@@ -12,7 +12,7 @@ namespace WebApp.Models
     /// <summary>
     /// Represents a product in the web application.
     /// </summary>
-    public class Product
+    public abstract class Product
     {
         /// <summary>
         /// Gets or sets the unique identifier for the product.
@@ -84,7 +84,7 @@ namespace WebApp.Models
         /// <param name="metalType">The type of metal of the product.</param>
 
         public Product(string name, string image, string description, decimal price, EnumWebApp.Category category,
-                      , string color, EnumWebApp.Size size, string metalType)
+                       string color, EnumWebApp.Size size, string metalType)
             : this ()
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "The name cannot be null.");
