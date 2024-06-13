@@ -57,10 +57,7 @@ namespace WebApp.Models
         /// Gets or sets the size of the product.
         /// </summary>
         public WebAppEnum.SizeRingsBracelets Size { get; set; }
-        /// <summary>
-        /// Gets or sets the type of metal of the product.
-        /// </summary>
-        public string MetalType { get; set; }
+      
 
 
         /// <summary>
@@ -81,10 +78,9 @@ namespace WebApp.Models
         /// <param name="category">The category of the product.</param>
         /// <param name="size">The size of the product.</param>
         /// <param name="color">The color of the product.</param>
-        /// <param name="metalType">The type of metal of the product.</param>
 
         public Product(string name, string image, string description, decimal price, WebAppEnum.Category category,
-                       string color, WebAppEnum.SizeRingsBracelets size, string metalType)
+                       string color, WebAppEnum.SizeRingsBracelets size)
             : this()
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "The name cannot be null.");
@@ -94,7 +90,6 @@ namespace WebApp.Models
             Category = category;
             Color = color ?? throw new ArgumentNullException(nameof(color), "The color cannot be null.");
             Size = size;
-            MetalType = metalType ?? throw new ArgumentNullException(nameof(metalType), "The metal type cannot be null.");
         }
 
         /// <summary>
