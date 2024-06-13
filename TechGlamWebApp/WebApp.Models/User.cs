@@ -13,7 +13,7 @@ namespace WebApp.Models
         [Column(TypeName = "nvarchar(50)")]
         [Required(ErrorMessage = "You must insert your Name!")]
         [StringLength(50, ErrorMessage = "The name can not be longer than 50 characters!")]
-        public string Name { get; private set; }
+        public string Name { get;  set; }
 
         /// <summary>
         /// Gets the last name of the user.
@@ -22,20 +22,28 @@ namespace WebApp.Models
         [Column(TypeName = "nvarchar(60)")]
         [Required(ErrorMessage = "You must insert your Surname!")]
         [StringLength(60, ErrorMessage = "The surname can not be longer than 60 characters!")]
-        public string Surname { get; private set; }
+        public string Surname { get;  set; }
 
+        /// <summary>
+        /// Gets the phone number of the user.
+        /// </summary>
+        [PersonalData]
+        [Column(TypeName = "nvarchar(60)")]
+        [Required(ErrorMessage = "You must insert your phone number!")]
+        [StringLength(60, ErrorMessage = "The pohone number can not be longer than 13 characters!")]
+        public string PhoneNumber { get; set; }
         /// <summary>
         /// Gets the birth date of the user.
         /// </summary>
         [PersonalData]
         [Column(TypeName = "date")]
         [Required(ErrorMessage = "You must insert your Birth Date!")]
-        public DateTime BirthDate { get; private set; }
+        public DateTime BirthDate { get;  set; }
 
         /// <summary>
         /// Gets a value indicating whether the user has administrative privileges.
         /// </summary>
-        public bool IsAdmin { get; private set; }
+        public bool IsAdmin { get;  set; }
 
         // Uncomment the following line if you need to establish a relationship with the Ordine entity.
         // public ICollection<Ordine> OrdiniUtente { get; set; }
@@ -52,10 +60,11 @@ namespace WebApp.Models
         /// <param name="surname">The last name of the user.</param>
         /// <param name="birthDate">The birth date of the user.</param>
         /// <param name="isAdmin">Indicates whether the user has administrative privileges. Default is false.</param>
-        public User(string name, string surname, DateTime birthDate, bool isAdmin = false)
+        public User(string name, string surname,string phoneNumber, DateTime birthDate, bool isAdmin = false)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "Name cannot be null.");
             Surname = surname ?? throw new ArgumentNullException(nameof(surname), "Surname cannot be null.");
+            PhoneNumber = phoneNumber;
             BirthDate = birthDate;
             IsAdmin = isAdmin;
         }
@@ -75,7 +84,7 @@ namespace WebApp.Models
         /// <param name="nome">The new first name of the user.</param>
         /// <param name="cognome">The new last name of the user.</param>
         /// <param name="dataNascita">The new birth date of the user.</param>
-        public void UpdateDetails(string name, string surname, DateTime birthDate)
+        public void UpdateDetails(string name, string surname,string phoneNumber, DateTime birthDate)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -89,6 +98,7 @@ namespace WebApp.Models
 
             Name = name;
             Surname = surname;
+            PhoneNumber = phoneNumber;
             BirthDate = birthDate;
         }
     }
