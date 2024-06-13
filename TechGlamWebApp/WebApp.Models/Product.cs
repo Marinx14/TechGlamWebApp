@@ -47,7 +47,7 @@ namespace WebApp.Models
         /// <summary>
         /// Gets or sets the category of the product.
         /// </summary>
-        public string Category { get; set; }
+        public WebAppEnum.Category Category { get; set; }
 
         /// <summary>
         /// Gets or sets the color of the product.
@@ -116,18 +116,5 @@ namespace WebApp.Models
         }
     }
 
-    /// <summary>
-    /// Represents a cloned version of a product.
-    /// </summary>
-    public class ClonedProduct
-    {
-        public string Name { get; set; }
-        public string Image { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public string Category { get; set; }
-        public WebAppEnum.SizeRingsBracelets Size { get; set; }
-        public string Color { get; set; }
-        public string MetalType { get; set; }
-    }
+
 }

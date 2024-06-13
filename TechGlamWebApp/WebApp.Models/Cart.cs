@@ -13,7 +13,5 @@ namespace WebApp.Models
         public virtual ICollection<ClonedProduct> clonedProduct { get; set; } = null;
     }
 
-    public class ClonedProduct
-    {
-    }
+
 }

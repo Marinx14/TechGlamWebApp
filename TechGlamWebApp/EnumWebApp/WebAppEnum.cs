@@ -30,7 +30,7 @@ public class WebAppEnum
         XL   // Extra-large size
     }
 
-    /// <summary>
+    /*/// <summary>
     /// Enum representing sizes for watches.
     /// </summary>
     /// da validare se aggiungere o meno gli orologi
@@ -39,5 +39,5 @@ public class WebAppEnum
         mm40 = 40,   // 40 mm size
         mm44 = 44,   // 44 mm size
         mm45 = 45    // 45 mm size
-    }
+    }*/
 }
