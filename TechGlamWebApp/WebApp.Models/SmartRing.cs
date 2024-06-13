@@ -15,8 +15,8 @@ namespace WebApp.Models
         private bool securityFeatures;
         private bool waterproof;
 
-        public SmartRing(string name, string image, string description, decimal price, EnumWebApp.Category category,
-                          string color, EnumWebApp.Size size, string metalType, bool healthMonitoring, bool activityTracking, bool notifications, bool securityFeatures, bool waterproof) :
+        public SmartRing(string name, string image, string description, decimal price, WebAppEnum.Category category,
+                          string color, WebAppEnum.SizeRingsBracelets size, string metalType, bool healthMonitoring, bool activityTracking, bool notifications, bool securityFeatures, bool waterproof) :
                base(name, image, description, price, category, color, size, metalType)
         {
             this.healthMonitoring = healthMonitoring;
