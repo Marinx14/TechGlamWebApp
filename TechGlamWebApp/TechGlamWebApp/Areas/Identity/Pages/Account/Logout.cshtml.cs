@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WebApp.Modelli;
+using TechGlamWebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using TecGlamWebApp.Models;
+using TechGlamWebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
