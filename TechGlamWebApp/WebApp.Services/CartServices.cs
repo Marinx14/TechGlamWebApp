@@ -5,138 +5,134 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using WebApp.Data;
-using WebApp.Modelli;
+using WebApp.Models;
 
-namespace WebApp.Servizi
+namespace Webapp.Services
 {
-    public class CarrelloServizi
+    public class CartServices
     {
-
         public ApplicationDbContext _dbContext { get; set; }
+        public List<ClonedProduct> _clonedProducts { get; set; }
 
-        public List<ProdottoClonato> _prodottiClonati { get; set; }
-
-        public CarrelloServizi(ApplicationDbContext dbContext)
+        public CartServices(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _prodottiClonati = new List<ProdottoClonato>();
-
-
+            _clonedProducts = new List<ClonedProduct>();
         }
-        public async Task<Carrello> GetCarrelloAsync(string IdUser)
+
+        public async Task<Cart> GetCartAsync(string userId)
         {
-            var carrello = await _dbContext.CarrelloProdotti.FirstOrDefaultAsync(d => d.IDUtenteAssociato == IdUser);
-            if (carrello == null)
+            var cart = await _dbContext.CartProducts.FirstOrDefaultAsync(d => d.AssociatedUserId == userId);
+            if (cart == null)
             {
-                carrello = new Carrello()
+                cart = new Cart()
                 {
-                    IDCarrello = Guid.NewGuid(),
-                    IDUtenteAssociato = IdUser,
-                    prodottiClonati = new List<ProdottoClonato>()
+                    CartId = Guid.NewGuid(),
+                    AssociatedUserId = userId,
+                    ClonedProducts = new List<ClonedProduct>()
                 };
-                await _dbContext.CarrelloProdotti.AddAsync(carrello);
+                await _dbContext.CartProducts.AddAsync(cart);
                 await _dbContext.SaveChangesAsync();
             }
-            return carrello;
+            return cart;
         }
 
-        public async Task AggiungiProdottoCarrello(string idUser, Prodotto prodottoDaAggiungere, int quantita)
+        public async Task AddProductToCart(string userId, Product productToAdd, int quantity)
         {
-            var prodottoEsistente = _dbContext.Prodotti.FirstOrDefault(p => p.IDProdotto == prodottoDaAggiungere.IDProdotto);
-            var prodottoClonato = new ProdottoClonato(prodottoEsistente);
-            var dettagliCarrello = await _dbContext.DettagliCarrello.ToListAsync();
-            var carrello = await this.GetCarrelloAsync(idUser);
-            dettagliCarrello = dettagliCarrello.Where(p => p.IDCarrelloAssociato.Equals(carrello.IDCarrello)).ToList();
-            var esistente = dettagliCarrello.FirstOrDefault(pc => pc.Nome.Equals(prodottoClonato.Nome) && pc.Taglia.Equals(prodottoClonato.Taglia)
-            && pc.IDCarrelloAssociato.Equals(carrello.IDCarrello));
+            var existingProduct = _dbContext.Products.FirstOrDefault(p => p.ProductId == productToAdd.ProductId);
+            var clonedProduct = new ClonedProduct(existingProduct);
+            var cartDetails = await _dbContext.CartDetails.ToListAsync();
+            var cart = await this.GetCartAsync(userId);
+            cartDetails = cartDetails.Where(p => p.AssociatedCartId.Equals(cart.CartId)).ToList();
+            var existing = cartDetails.FirstOrDefault(pc => pc.Name.Equals(clonedProduct.Name) && pc.Size.Equals(clonedProduct.Size)
+            && pc.AssociatedCartId.Equals(cart.CartId));
 
-            if (carrello != null)
+            if (cart != null)
             {
-                if (esistente != null)
+                if (existing != null)
                 {
-                    esistente.QuantitaOrdinati += quantita;
-                    _dbContext.Entry(esistente).State = EntityState.Modified;
+                    existing.QuantityOrdered += quantity;
+                    _dbContext.Entry(existing).State = EntityState.Modified;
                 }
                 else
                 {
-                    prodottoClonato.IDCarrelloAssociato = carrello.IDCarrello;
-                    prodottoClonato.QuantitaOrdinati = quantita;
-                    _dbContext.Entry(prodottoClonato).State = EntityState.Added;
+                    clonedProduct.AssociatedCartId = cart.CartId;
+                    clonedProduct.QuantityOrdered = quantity;
+                    _dbContext.Entry(clonedProduct).State = EntityState.Added;
                 }
             }
-                    await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task EliminaProdottoCarrello(Guid idProdotto, string idUser)
-        {
-            var dettagliCarrello = await _dbContext.DettagliCarrello.ToListAsync();
-            //Prendere ID del carrello associato all'utente per rimuovere
-            var prodotto = _dbContext.DettagliCarrello.FirstOrDefault(p => p.IDProdottoClonato == idProdotto);
-            if (prodotto != null)
-            {
-                 _dbContext.DettagliCarrello.Remove(prodotto);
-                await _dbContext.SaveChangesAsync();
-            }
-        }
-        public async Task SvuotaCarrello(string idUser)
-        {
-            //Prendere ID del carrello associato all'utente per rimuovere
-            var carrello = await this.GetCarrelloAsync(idUser);
-            var dettagliCarrello = await _dbContext.DettagliCarrello.ToListAsync();
-            dettagliCarrello = dettagliCarrello.Where(p => p.IDCarrelloAssociato.Equals(carrello.IDCarrello)).ToList();
-            foreach (var item in dettagliCarrello) 
-            {
-                _dbContext.DettagliCarrello.RemoveRange(item);
-            }
-            //_dbContext.DettagliCarrello.RemoveRange(carrello.prodottiClonati);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Prodotto> GetProdottoIdAsync(Guid idProdotto)
+        public async Task RemoveProductFromCart(Guid clonedProductId, string userId)
         {
-            return await _dbContext.Prodotti.FirstOrDefaultAsync(p => p.IDProdotto == idProdotto);
-        }
-        public async Task<bool> InvioProdotti(string idUtente)
-        {
-            var carrello = await GetCarrelloAsync(idUtente);
-            var dettagliCarrello = await _dbContext.DettagliCarrello.ToListAsync();
-            dettagliCarrello = dettagliCarrello.Where(p => p.IDCarrelloAssociato.Equals(carrello.IDCarrello)).ToList();
-            if (carrello != null && dettagliCarrello.Any())
+            var cartDetails = await _dbContext.CartDetails.ToListAsync();
+            var product = _dbContext.CartDetails.FirstOrDefault(p => p.ClonedProductId == clonedProductId);
+            if (product != null)
             {
-                foreach (var prodotto in carrello.prodottiClonati)
+                 _dbContext.CartDetails.Remove(product);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task EmptyCart(string userId)
+        {
+            var cart = await this.GetCartAsync(userId);
+            var cartDetails = await _dbContext.CartDetails.ToListAsync();
+            cartDetails = cartDetails.Where(p => p.AssociatedCartId.Equals(cart.CartId)).ToList();
+            foreach (var item in cartDetails) 
+            {
+                _dbContext.CartDetails.RemoveRange(item);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Product> GetProductByIdAsync(Guid productId)
+        {
+            return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
+        }
+
+        public async Task<bool> SubmitProducts(string userId)
+        {
+            var cart = await GetCartAsync(userId);
+            var cartDetails = await _dbContext.CartDetails.ToListAsync();
+            cartDetails = cartDetails.Where(p => p.AssociatedCartId.Equals(cart.CartId)).ToList();
+            if (cart != null && cartDetails.Any())
+            {
+                foreach (var product in cart.ClonedProducts)
                 {
-                    var prodottoNelDb = await GetProdottoIdAsync(prodotto.IDProdottoClonato);
-                    if (prodottoNelDb != null)
+                    var productInDb = await GetProductByIdAsync(product.ClonedProductId);
+                    if (productInDb != null)
                     {
-                        if (prodottoNelDb.Quantita < prodotto.QuantitaOrdinati)
+                        if (productInDb.Quantity < product.QuantityOrdered)
                         {
                             return false;
                         }
-                        else { 
-                        prodottoNelDb.Quantita -= prodotto.QuantitaOrdinati;
-                        _dbContext.Prodotti.Update(prodottoNelDb);
-                        _dbContext.DettagliCarrello.Remove(prodotto);
-                        carrello.prodottiClonati.Remove(prodotto);
-                        _dbContext.CarrelloProdotti.Update(carrello);
+                        else
+                        {
+                            productInDb.Quantity -= product.QuantityOrdered;
+                            _dbContext.Products.Update(productInDb);
+                            _dbContext.CartDetails.Remove(product);
+                            cart.ClonedProducts.Remove(product);
+                            _dbContext.CartProducts.Update(cart);
 
-                        await _dbContext.SaveChangesAsync();
+                            await _dbContext.SaveChangesAsync();
                         }
                     }
                 }
-                await SvuotaCarrello(idUtente);
+                await EmptyCart(userId);
                 return true;
             }
             return false;
         }
 
-
-        public async Task<List<ProdottoClonato>> ProdottiClonatiAsync(Carrello carrello)
+        public async Task<List<ClonedProduct>> GetClonedProductsAsync(Cart cart)
         {
-            var result = await _dbContext.DettagliCarrello.ToListAsync();
-            result = result.Where(p => p.IDCarrelloAssociato.Equals(carrello.IDCarrello)).DistinctBy(t => t.Nome).ToList();
+            var result = await _dbContext.CartDetails.ToListAsync();
+            result = result.Where(p => p.AssociatedCartId.Equals(cart.CartId)).DistinctBy(t => t.Name).ToList();
             return result;
         }
-
     }
 }
