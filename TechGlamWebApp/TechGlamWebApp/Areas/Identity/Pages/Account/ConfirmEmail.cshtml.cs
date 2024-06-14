@@ -10,7 +10,7 @@ using System.Text;
 using WebApp.Modelli;
 
 
-namespace WebApp.Areas.Identity.Pages.Account
+namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {

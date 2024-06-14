@@ -5,8 +5,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WebApp.Modelli;
-namespace WebApp.Areas.Identity.Pages.Account.Manage
+using TechGlamWebApp.Models;
+namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class GenerateRecoveryCodesModel : PageModel
     {

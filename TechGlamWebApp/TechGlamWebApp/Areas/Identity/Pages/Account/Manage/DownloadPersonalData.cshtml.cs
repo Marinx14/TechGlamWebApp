@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
-using WebApp.Modelli;
+using TechGlamWebApp.Models;
 
-namespace WebApp.Areas.Identity.Pages.Account.Manage
+namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class DownloadPersonalDataModel : PageModel
     {

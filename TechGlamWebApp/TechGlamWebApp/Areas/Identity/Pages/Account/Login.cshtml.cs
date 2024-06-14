@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using WebApp.Modelli;
 
-namespace WebApp.Areas.Identity.Pages.Account
+namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {

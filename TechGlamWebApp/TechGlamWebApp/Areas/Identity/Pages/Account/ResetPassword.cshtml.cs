@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using WebApp.Modelli;
+using TecGlamWebApp.Models;
 
-namespace WebApp.Areas.Identity.Pages.Account
+namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class ResetPasswordModel : PageModel
     {

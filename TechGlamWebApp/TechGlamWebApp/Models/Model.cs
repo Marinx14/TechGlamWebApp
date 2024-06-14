@@ -1,4 +1,4 @@
-﻿namespace WebApp.Models
+﻿namespace TechGlamWebApp.Models
 {
     public class Model
     {

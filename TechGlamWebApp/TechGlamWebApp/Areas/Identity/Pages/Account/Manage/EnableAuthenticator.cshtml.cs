@@ -9,8 +9,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
-using WebApp.Modelli;
-namespace WebApp.Areas.Identity.Pages.Account.Manage
+using TechGlamWebApp.Models;
+namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class EnableAuthenticatorModel : PageModel
     {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApp.Modelli;
 
-namespace WebApp.Areas.Identity.Pages.Account
+namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {

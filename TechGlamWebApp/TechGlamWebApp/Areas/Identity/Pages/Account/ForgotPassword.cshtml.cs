@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using WebApp.Modelli;
 
-namespace WebApp.Areas.Identity.Pages.Account
+namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
