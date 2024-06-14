@@ -1,0 +1,118 @@
+﻿@page
+@model RegisterModel
+<br />
+<br />
+<br />
+<br />
+<h1>@ViewData["Title"]</h1>
+
+<div class="row g-0 auth-row min-vh-100">
+    <div class="d-flex justify-content-center">
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2 class="mt-4">Registrati</h2>
+            <div class="d-flex">
+
+                <div class="col-49 mt-4">
+                    <label asp-for="Input.Nome" class="mb-0">Nome *</label><br>
+                    <input asp-for="Input.Nome" class="form-control form-control-lg" type="text" id="nome" placeholder="Nome" minlength="3" required />
+                    <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                </div>
+
+                <div class="col-49 mt-4 offset-1">
+                    <label asp-for="Input.Cognome" class="mb-0">Cognome *</label><br>
+                    <input asp-for="Input.Cognome" class="form-control form-control-lg" type="text" id="cognome" placeholder="Cognome" minlength="3" required />
+                    <span asp-validation-for="Input.Cognome" class="text-danger"></span>
+                </div>
+                
+            </div>
+
+          
+
+            <div class="col-12 mt-4">
+                <label asp-for="Input.DataNascita" class="mb-0">Data di nascita *</label><br>
+                <input asp-for="Input.DataNascita" class="form-control form-control-lg text-muted" autocomplete="off" />
+                <span asp-validation-for="Input.DataNascita" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-12 position-relative mt-4">
+                <label asp-for="Input.PhoneNumber">Numero di telefono *</label>
+                <input asp-for="Input.PhoneNumber" class="form-control form-control-lg" id="numero" placeholder="Numero di telefono" required />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-12 mt-4">
+                <label asp-for="Input.Email" class="mb-0">Email *</label><br>
+                <input asp-for="Input.Email" class="form-control form-control-lg mt-2 input-white-text" type="email" id="username" placeholder="Email" required />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-12 position-relative mt-4">
+                <label asp-for="Input.Password" class="form-label">Password *</label>
+                    <input asp-for="Input.Password" class="form-control form-control-lg" type="password" id="password" placeholder="Password" required minlength="8" />
+                    <span class=" mostraPassword" > </span>
+               
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+           
+
+            <div class="col-12 position-relative mt-4">
+                <label asp-for="Input.ConfirmPassword">Conferma Password *</label>
+                <input asp-for="Input.ConfirmPassword" class="form-control form-control-lg" type="password" id="password2" placeholder="Conferma Password" required minlength="8" />
+                <span class=" mostraPasswordConferma"> </span>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                
+
+            </div>
+
+            
+
+            <div class="col-12 mt-4">
+                <input type="submit" class="btn btn-outline-dark w-100" name="signupSubmit" value="Registrati" />
+            </div>
+            <br />
+            <a asp-page="./Login">
+                Sei già registrato? Effettua il login
+            </a>
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+    let item = document.querySelector('.mostraPassword');
+    let pw = document.querySelector('#password');
+
+    item.addEventListener("click", function () {
+        item.classList.toggle('display-password');
+        let type = pw.getAttribute('type') === 'password' ? 'text' : 'password';
+        pw.setAttribute('type', type);
+    });
+
+    let item2 = document.querySelector('.mostraPasswordConferma');
+    let pw2 = document.querySelector('#password2');
+
+    item2.addEventListener("click", function () {
+        item2.classList.toggle('displayPasswordConferma');
+        let type2 = pw2.getAttribute('type') === 'password' ? 'text' : 'password';
+        pw2.setAttribute('type', type2);
+    });
+    </script>
+
+
+
+
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

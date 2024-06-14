@@ -1,0 +1,59 @@
+﻿@page
+@model LoginModel
+<br />
+<br />
+<br />
+<br />
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="row g-0 auth-row min-vh-100">
+
+        <div class=" d-flex justify-content-center">
+
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <h2 class=" mt-4">Accedi</h2>
+                <div class="col-12 position-relative mt-4">
+                    <label asp-for="Input.Email" class="form-label"></label>
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" required />                  
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 mt-4">
+                    <label asp-for="Input.Password" class="form-label"></label>
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" id="password" aria-required="true" placeholder="Password" required minlength="8" />
+                    <span class=" mostraPasswordLogin"> </span>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <br>
+                <label asp-for="Input.RememberMe" class="form-label">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+
+                <div class="col-12 mt-2 mb-4">
+                    <input type="submit" class="btn btn-outline-dark w-100" name="signupSubmit" value="Accedi" />
+                </div>
+                <a asp-page="./Register">
+                    Non hai ancora un account? Registrati
+                </a>
+                <br>
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Hai dimenticato la password? Clicca qui </a>
+                </p>
+            </form>
+</div>
+        <script>
+            let item = document.querySelector('.mostraPasswordLogin');
+            let pw = document.querySelector('#password');
+
+            item.addEventListener("click", function () {
+                item.classList.toggle('displayPasswordLogin');
+                let type = pw.getAttribute('type') === 'password' ? 'text' : 'password';
+                pw.setAttribute('type', type);
+            });
+        </script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
