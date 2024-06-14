@@ -8,17 +8,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using TechGlamWebApp.Models;
+using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailChangeModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
-        private readonly SignInManager<Utente> _signInManager;
+        private readonly UserManager<User> _UserManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public ConfirmEmailChangeModel(UserManager<Utente> userManager, SignInManager<Utente> signInManager)
+        public ConfirmEmailChangeModel(UserManager<User> UserManager, SignInManager<User> signInManager)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _signInManager = signInManager;
         }
 
@@ -29,37 +30,37 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
         [TempData]
         public string StatusMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string userId, string email, string code)
+        public async Task<IActionResult> OnGetAsync(string UserId, string email, string code)
         {
-            if (userId == null || email == null || code == null)
+            if (UserId == null || email == null || code == null)
             {
                 return RedirectToPage("/Index");
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
+            var User = await _UserManager.FindByIdAsync(UserId);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                return NotFound($"Unable to load User with ID '{UserId}'.");
             }
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ChangeEmailAsync(user, email, code);
+            var result = await _UserManager.ChangeEmailAsync(User, email, code);
             if (!result.Succeeded)
             {
                 StatusMessage = "Error changing email.";
                 return Page();
             }
 
-            // In our UI email and user name are one and the same, so when we update the email
-            // we need to update the user name.
-            var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
+            // In our UI email and User name are one and the same, so when we update the email
+            // we need to update the User name.
+            var setUserNameResult = await _UserManager.SetUserNameAsync(User, email);
             if (!setUserNameResult.Succeeded)
             {
-                StatusMessage = "Error changing user name.";
+                StatusMessage = "Error changing User name.";
                 return Page();
             }
 
-            await _signInManager.RefreshSignInAsync(user);
+            await _signInManager.RefreshSignInAsync(User);
             StatusMessage = "Thank you for confirming your email change.";
             return Page();
         }

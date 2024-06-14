@@ -12,27 +12,28 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using TechGlamWebApp.Models;
+using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<Utente> _signInManager;
-        private readonly UserManager<Utente> _userManager;
-        private readonly IUserStore<Utente> _userStore;
-        private readonly IUserEmailStore<Utente> _emailStore;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _UserManager;
+        private readonly IUserStore<User> _UserStore;
+        private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<Utente> userManager,
-            IUserStore<Utente> userStore,
-            SignInManager<Utente> signInManager,
+            UserManager<User> UserManager,
+            IUserStore<User> UserStore,
+            SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
-            _userManager = userManager;
-            _userStore = userStore;
+            _UserManager = UserManager;
+            _UserStore = UserStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
@@ -128,43 +129,43 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-                user.Nome = Input.Nome;
-                user.Cognome = Input.Cognome;
-                user.DataNascita = Input.DataNascita;
-                user.PhoneNumber = Input.PhoneNumber;
+                var User = CreateUser();
+                User.Name = Input.Nome;
+                User.Surname = Input.Cognome;
+                User.BirthDate = Input.DataNascita;
+                User.PhoneNumber = Input.PhoneNumber;
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                if (user.Email.ToUpper() == "ADMINISTRATOR1@ADMINISTRATOR.COM" && user.UserName.ToUpper() == "ADMINISTRATOR1@ADMINISTRATOR.COM")
+                await _UserStore.SetUserNameAsync(User, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(User, Input.Email, CancellationToken.None);
+                if (User.Email.ToUpper() == "ADMINISTRATOR1@ADMINISTRATOR.COM" && User.UserName.ToUpper() == "ADMINISTRATOR1@ADMINISTRATOR.COM")
                 {
-                    user.isAdmin = true;
+                    User.IsAdmin = true;
                 }
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await _UserManager.CreateAsync(User, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var UserId = await _UserManager.GetUserIdAsync(User);
+                    var code = await _UserManager.GenerateEmailConfirmationTokenAsync(User);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity", UserId = UserId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    if (_UserManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.SignInAsync(User, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
@@ -178,27 +179,27 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private Utente CreateUser()
+        private User CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<Utente>();
+                return Activator.CreateInstance<User>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(Utente)}'. " +
-                    $"Ensure that '{nameof(Utente)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
+                    $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<Utente> GetEmailStore()
+        private IUserEmailStore<User> GetEmailStore()
         {
-            if (!_userManager.SupportsUserEmail)
+            if (!_UserManager.SupportsUserEmail)
             {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
+                throw new NotSupportedException("The default UI requires a User store with email support.");
             }
-            return (IUserEmailStore<Utente>)_userStore;
+            return (IUserEmailStore<User>)_UserStore;
         }
     }
 }

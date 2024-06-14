@@ -11,21 +11,22 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using TechGlamWebApp.Models;
+using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class EmailModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
-        private readonly SignInManager<Utente> _signInManager;
+        private readonly UserManager<User> _UserManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public EmailModel(
-            UserManager<Utente> userManager,
-            SignInManager<Utente> signInManager,
+            UserManager<User> UserManager,
+            SignInManager<User> signInManager,
             IEmailSender emailSender)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
         }
@@ -72,9 +73,9 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
             public string NewEmail { get; set; }
         }
 
-        private async Task LoadAsync(Utente user)
+        private async Task LoadAsync(User User)
         {
-            var email = await _userManager.GetEmailAsync(user);
+            var email = await _UserManager.GetEmailAsync(User);
             Email = email;
 
             Input = new InputModel
@@ -82,45 +83,45 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 NewEmail = email,
             };
 
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            IsEmailConfirmed = await _UserManager.IsEmailConfirmedAsync(User);
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            await LoadAsync(user);
+            await LoadAsync(User);
             return Page();
         }
 
         public async Task<IActionResult> OnPostChangeEmailAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                await LoadAsync(User);
                 return Page();
             }
 
-            var email = await _userManager.GetEmailAsync(user);
+            var email = await _UserManager.GetEmailAsync(User);
             if (Input.NewEmail != email)
             {
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
+                var UserId = await _UserManager.GetUserIdAsync(User);
+                var code = await _UserManager.GenerateChangeEmailTokenAsync(User, Input.NewEmail);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
                     "/Account/ConfirmEmailChange",
                     pageHandler: null,
-                    values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = code },
+                    values: new { area = "Identity", UserId = UserId, email = Input.NewEmail, code = code },
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
@@ -137,26 +138,26 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                await LoadAsync(User);
                 return Page();
             }
 
-            var userId = await _userManager.GetUserIdAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var UserId = await _UserManager.GetUserIdAsync(User);
+            var email = await _UserManager.GetEmailAsync(User);
+            var code = await _UserManager.GenerateEmailConfirmationTokenAsync(User);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code },
+                values: new { area = "Identity", UserId = UserId, code = code },
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,

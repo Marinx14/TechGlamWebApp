@@ -11,17 +11,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using TechGlamWebApp.Models;
+using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
+        private readonly UserManager<User> _UserManager;
         private readonly IEmailSender _emailSender;
 
-        public ForgotPasswordModel(UserManager<Utente> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<User> UserManager, IEmailSender emailSender)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _emailSender = emailSender;
         }
 
@@ -51,16 +52,16 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                var User = await _UserManager.FindByEmailAsync(Input.Email);
+                if (User == null || !(await _UserManager.IsEmailConfirmedAsync(User)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
+                    // Don't reveal that the User does not exist or is not confirmed
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
 
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var code = await _UserManager.GeneratePasswordResetTokenAsync(User);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",

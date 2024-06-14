@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Models;
-using WebApp.Services;
 
 namespace TechGlamWebApp.Controllers
 {
@@ -13,12 +12,12 @@ namespace TechGlamWebApp.Controllers
     public class CartController : Controller
     {
         private readonly CartServices _cartServices;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> _UserManager;
 
-        public CartController(ApplicationDbContext dbContext, UserManager<User> userManager)
+        public CartController(ApplicationDbContext dbContext, UserManager<User> UserManager)
         {
             _cartServices = new CartServices(dbContext);
-            _userManager = userManager;
+            _UserManager = UserManager;
         }
 
         [HttpGet]
@@ -26,9 +25,9 @@ namespace TechGlamWebApp.Controllers
         [Authorize]
         public async Task<IActionResult> CartIndex()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user?.Id;
-            var cart = await _cartServices.GetCartAsync(userId);
+            var User = await _UserManager.GetUserAsync(User);
+            var UserId = User?.Id;
+            var cart = await _cartServices.GetCartAsync(UserId);
             cart.ClonedProducts = await _cartServices.GetClonedProductsAsync(cart);
             return View(cart);
         }
@@ -54,12 +53,12 @@ namespace TechGlamWebApp.Controllers
         [Authorize]
         public async Task<IActionResult> AddProductToCart(Guid id, int quantity = 1)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user?.Id;
+            var User = await _UserManager.GetUserAsync(User);
+            var UserId = User?.Id;
             var product = await _cartServices.GetProductByIdAsync(id);
             if (product != null)
             {
-                await _cartServices.AddProductToCart(userId, product, quantity);
+                await _cartServices.AddProductToCart(UserId, product, quantity);
             }
             return RedirectToAction("CartIndex");
         }
@@ -76,9 +75,9 @@ namespace TechGlamWebApp.Controllers
         public async Task<IActionResult> RemoveProductFromCart(Guid id)
         {
             if (id == Guid.Empty) { return View(); }
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user?.Id;
-            await _cartServices.RemoveProductFromCart(id, userId);
+            var User = await _UserManager.GetUserAsync(User);
+            var UserId = User?.Id;
+            await _cartServices.RemoveProductFromCart(id, UserId);
 
             return RedirectToAction("CartIndex", "Cart");
         }
@@ -87,9 +86,9 @@ namespace TechGlamWebApp.Controllers
         [Route("EmptyCart")]
         public async Task<IActionResult> EmptyCart()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user?.Id;
-            await _cartServices.EmptyCart(userId);
+            var User = await _UserManager.GetUserAsync(User);
+            var UserId = User?.Id;
+            await _cartServices.EmptyCart(UserId);
             return RedirectToAction("CartIndex", "Cart");
         }
 
@@ -111,9 +110,9 @@ namespace TechGlamWebApp.Controllers
         [Route("/SubmitCartProducts")]
         public async Task<IActionResult> SubmitCartProducts(string id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user?.Id;
-            if (await _cartServices.SubmitProducts(userId)) 
+            var User = await _UserManager.GetUserAsync(User);
+            var UserId = User?.Id;
+            if (await _cartServices.SubmitProducts(UserId)) 
             { 
                 return RedirectToAction("SubmitProducts"); 
             }

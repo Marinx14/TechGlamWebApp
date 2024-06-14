@@ -6,18 +6,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TechGlamWebApp.Models;
+using WebApp.Models;
+
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class TwoFactorAuthenticationModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
-        private readonly SignInManager<Utente> _signInManager;
+        private readonly UserManager<User> _UserManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<TwoFactorAuthenticationModel> _logger;
 
         public TwoFactorAuthenticationModel(
-            UserManager<Utente> userManager, SignInManager<Utente> signInManager, ILogger<TwoFactorAuthenticationModel> logger)
+            UserManager<User> UserManager, SignInManager<User> signInManager, ILogger<TwoFactorAuthenticationModel> logger)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -56,26 +58,26 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            HasAuthenticator = await _userManager.GetAuthenticatorKeyAsync(user) != null;
-            Is2faEnabled = await _userManager.GetTwoFactorEnabledAsync(user);
-            IsMachineRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user);
-            RecoveryCodesLeft = await _userManager.CountRecoveryCodesAsync(user);
+            HasAuthenticator = await _UserManager.GetAuthenticatorKeyAsync(User) != null;
+            Is2faEnabled = await _UserManager.GetTwoFactorEnabledAsync(User);
+            IsMachineRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(User);
+            RecoveryCodesLeft = await _UserManager.CountRecoveryCodesAsync(User);
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             await _signInManager.ForgetTwoFactorClientAsync();

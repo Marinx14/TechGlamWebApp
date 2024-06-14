@@ -7,21 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using TechGlamWebApp.Models;
+using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
-        private readonly SignInManager<Utente> _signInManager;
+        private readonly UserManager<User> _UserManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
 
         public ChangePasswordModel(
-            UserManager<Utente> userManager,
-            SignInManager<Utente> signInManager,
+            UserManager<User> UserManager,
+            SignInManager<User> signInManager,
             ILogger<ChangePasswordModel> logger)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -77,13 +78,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var hasPassword = await _userManager.HasPasswordAsync(user);
+            var hasPassword = await _UserManager.HasPasswordAsync(User);
             if (!hasPassword)
             {
                 return RedirectToPage("./SetPassword");
@@ -99,13 +100,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
+            var changePasswordResult = await _UserManager.ChangePasswordAsync(User, Input.OldPassword, Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 foreach (var error in changePasswordResult.Errors)
@@ -115,7 +116,7 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            await _signInManager.RefreshSignInAsync(user);
+            await _signInManager.RefreshSignInAsync(User);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 

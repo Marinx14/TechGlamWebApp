@@ -7,7 +7,7 @@ namespace WebApp.Models
     public class User : IdentityUser
     {
         /// <summary>
-        /// Gets the first name of the user.
+        /// Gets the first name of the User.
         /// </summary>
         [PersonalData]
         [Column(TypeName = "nvarchar(50)")]
@@ -16,7 +16,7 @@ namespace WebApp.Models
         public string Name { get;  set; }
 
         /// <summary>
-        /// Gets the last name of the user.
+        /// Gets the last name of the User.
         /// </summary>
         [PersonalData]
         [Column(TypeName = "nvarchar(60)")]
@@ -25,7 +25,7 @@ namespace WebApp.Models
         public string Surname { get;  set; }
 
         /// <summary>
-        /// Gets the phone number of the user.
+        /// Gets the phone number of the User.
         /// </summary>
         [PersonalData]
         [Column(TypeName = "nvarchar(60)")]
@@ -33,7 +33,7 @@ namespace WebApp.Models
         [StringLength(60, ErrorMessage = "The pohone number can not be longer than 13 characters!")]
         public string PhoneNumber { get; set; }
         /// <summary>
-        /// Gets the birth date of the user.
+        /// Gets the birth date of the User.
         /// </summary>
         [PersonalData]
         [Column(TypeName = "date")]
@@ -41,12 +41,12 @@ namespace WebApp.Models
         public DateTime BirthDate { get;  set; }
 
         /// <summary>
-        /// Gets a value indicating whether the user has administrative privileges.
+        /// Gets a value indicating whether the User has administrative privileges.
         /// </summary>
         public bool IsAdmin { get;  set; }
 
         // Uncomment the following line if you need to establish a relationship with the Ordine entity.
-        // public ICollection<Ordine> OrdiniUtente { get; set; }
+        // public ICollection<Ordine> OrdiniUser { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -56,10 +56,10 @@ namespace WebApp.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class with specified details.
         /// </summary>
-        /// <param name="name">The first name of the user.</param>
-        /// <param name="surname">The last name of the user.</param>
-        /// <param name="birthDate">The birth date of the user.</param>
-        /// <param name="isAdmin">Indicates whether the user has administrative privileges. Default is false.</param>
+        /// <param name="name">The first name of the User.</param>
+        /// <param name="surname">The last name of the User.</param>
+        /// <param name="birthDate">The birth date of the User.</param>
+        /// <param name="isAdmin">Indicates whether the User has administrative privileges. Default is false.</param>
         public User(string name, string surname,string phoneNumber, DateTime birthDate, bool isAdmin = false)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "Name cannot be null.");
@@ -70,7 +70,7 @@ namespace WebApp.Models
         }
 
         /// <summary>
-        /// Sets the administrative status of the user.
+        /// Sets the administrative status of the User.
         /// </summary>
         /// <param name="isAdmin">True to grant administrative privileges, false otherwise.</param>
         public void SetAdminStatus(bool isAdmin)
@@ -79,11 +79,11 @@ namespace WebApp.Models
         }
 
         /// <summary>
-        /// Updates the details of the user.
+        /// Updates the details of the User.
         /// </summary>
-        /// <param name="nome">The new first name of the user.</param>
-        /// <param name="cognome">The new last name of the user.</param>
-        /// <param name="dataNascita">The new birth date of the user.</param>
+        /// <param name="nome">The new first name of the User.</param>
+        /// <param name="cognome">The new last name of the User.</param>
+        /// <param name="dataNascita">The new birth date of the User.</param>
         public void UpdateDetails(string name, string surname,string phoneNumber, DateTime birthDate)
         {
             if (string.IsNullOrWhiteSpace(name))

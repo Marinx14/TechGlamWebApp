@@ -10,22 +10,24 @@ using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
 using TechGlamWebApp.Models;
+using WebApp.Models;
+
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class EnableAuthenticatorModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
+        private readonly UserManager<User> _UserManager;
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public EnableAuthenticatorModel(
-            UserManager<Utente> userManager,
+            UserManager<User> UserManager,
             ILogger<EnableAuthenticatorModel> logger,
             UrlEncoder urlEncoder)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _logger = logger;
             _urlEncoder = urlEncoder;
         }
@@ -82,53 +84,53 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            await LoadSharedKeyAndQrCodeUriAsync(user);
+            await LoadSharedKeyAndQrCodeUriAsync(User);
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadSharedKeyAndQrCodeUriAsync(user);
+                await LoadSharedKeyAndQrCodeUriAsync(User);
                 return Page();
             }
 
             // Strip spaces and hyphens
             var verificationCode = Input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-            var is2faTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
-                user, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
+            var is2faTokenValid = await _UserManager.VerifyTwoFactorTokenAsync(
+                User, _UserManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
             if (!is2faTokenValid)
             {
                 ModelState.AddModelError("Input.Code", "Verification code is invalid.");
-                await LoadSharedKeyAndQrCodeUriAsync(user);
+                await LoadSharedKeyAndQrCodeUriAsync(User);
                 return Page();
             }
 
-            await _userManager.SetTwoFactorEnabledAsync(user, true);
-            var userId = await _userManager.GetUserIdAsync(user);
-            _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
+            await _UserManager.SetTwoFactorEnabledAsync(User, true);
+            var UserId = await _UserManager.GetUserIdAsync(User);
+            _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", UserId);
 
             StatusMessage = "Your authenticator app has been verified.";
 
-            if (await _userManager.CountRecoveryCodesAsync(user) == 0)
+            if (await _UserManager.CountRecoveryCodesAsync(User) == 0)
             {
-                var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
+                var recoveryCodes = await _UserManager.GenerateNewTwoFactorRecoveryCodesAsync(User, 10);
                 RecoveryCodes = recoveryCodes.ToArray();
                 return RedirectToPage("./ShowRecoveryCodes");
             }
@@ -138,19 +140,19 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
             }
         }
 
-        private async Task LoadSharedKeyAndQrCodeUriAsync(Utente user)
+        private async Task LoadSharedKeyAndQrCodeUriAsync(User User)
         {
             // Load the authenticator key & QR code URI to display on the form
-            var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
+            var unformattedKey = await _UserManager.GetAuthenticatorKeyAsync(User);
             if (string.IsNullOrEmpty(unformattedKey))
             {
-                await _userManager.ResetAuthenticatorKeyAsync(user);
-                unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
+                await _UserManager.ResetAuthenticatorKeyAsync(User);
+                unformattedKey = await _UserManager.GetAuthenticatorKeyAsync(User);
             }
 
             SharedKey = FormatKey(unformattedKey);
 
-            var email = await _userManager.GetEmailAsync(user);
+            var email = await _UserManager.GetEmailAsync(User);
             AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
         }
 

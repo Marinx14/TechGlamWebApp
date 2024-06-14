@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.Services
+namespace WebApp.Service
 {
     internal class ProductServices
     {

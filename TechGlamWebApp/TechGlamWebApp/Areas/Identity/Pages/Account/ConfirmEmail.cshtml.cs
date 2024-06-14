@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
-using TechGlamWebApp.Models;
+using WebApp.Models;
 
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
+        private readonly UserManager<User> _UserManager;
 
-        public ConfirmEmailModel(UserManager<Utente> userManager)
+        public ConfirmEmailModel(UserManager<User> UserManager)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
         }
 
         /// <summary>
@@ -27,21 +27,21 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
         /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+        public async Task<IActionResult> OnGetAsync(string UserId, string code)
         {
-            if (userId == null || code == null)
+            if (UserId == null || code == null)
             {
                 return RedirectToPage("/Index");
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
+            var User = await _UserManager.FindByIdAsync(UserId);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                return NotFound($"Unable to load User with ID '{UserId}'.");
             }
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
+            var result = await _UserManager.ConfirmEmailAsync(User, code);
             StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
             return Page();
         }

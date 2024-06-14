@@ -21,7 +21,7 @@ namespace WebApp.Data
             base.OnModelCreating(builder);
 
             builder.Entity<User>()
-                .HasKey(user => user.Id);
+                .HasKey(User => User.Id);
 
             builder.Entity<Product>()
                 .HasKey(product => product.ProductID);

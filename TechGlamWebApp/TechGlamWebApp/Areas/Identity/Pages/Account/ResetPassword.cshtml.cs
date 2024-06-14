@@ -9,16 +9,17 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using TechGlamWebApp.Models;
+using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
+        private readonly UserManager<User> _UserManager;
 
-        public ResetPasswordModel(UserManager<Utente> userManager)
+        public ResetPasswordModel(UserManager<User> UserManager)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
         }
 
         /// <summary>
@@ -92,14 +93,14 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var user = await _userManager.FindByEmailAsync(Input.Email);
-            if (user == null)
+            var User = await _UserManager.FindByEmailAsync(Input.Email);
+            if (User == null)
             {
-                // Don't reveal that the user does not exist
+                // Don't reveal that the User does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
-            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+            var result = await _UserManager.ResetPasswordAsync(User, Input.Code, Input.Password);
             if (result.Succeeded)
             {
                 return RedirectToPage("./ResetPasswordConfirmation");

@@ -1,5 +1,3 @@
-namespace WebApp.Services;
-
 using WebApp.Data;
 using WebApp.ViewModels;
 using System;
@@ -8,7 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApp.Services
+namespace WebApp.Service
 {
     public class OrderService : IOrderService
     {
@@ -43,5 +41,9 @@ namespace WebApp.Services
                 })
                 .FirstOrDefaultAsync();
         }
+    }
+
+    public interface IOrderService
+    {
     }
 }

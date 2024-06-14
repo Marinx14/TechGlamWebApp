@@ -7,22 +7,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TechGlamWebApp.Models;
+using WebApp.Models;
+
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
-        private readonly SignInManager<Utente> _signInManager;
-        private readonly IUserStore<Utente> _userStore;
+        private readonly UserManager<User> _UserManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IUserStore<User> _UserStore;
 
         public ExternalLoginsModel(
-            UserManager<Utente> userManager,
-            SignInManager<Utente> signInManager,
-            IUserStore<Utente> userStore)
+            UserManager<User> UserManager,
+            SignInManager<User> signInManager,
+            IUserStore<User> UserStore)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _signInManager = signInManager;
-            _userStore = userStore;
+            _UserStore = UserStore;
         }
 
         /// <summary>
@@ -52,21 +54,21 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            CurrentLogins = await _userManager.GetLoginsAsync(user);
+            CurrentLogins = await _UserManager.GetLoginsAsync(User);
             OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
                 .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
                 .ToList();
 
             string passwordHash = null;
-            if (_userStore is IUserPasswordStore<Utente> userPasswordStore)
+            if (_UserStore is IUserPasswordStore<User> UserPasswordStore)
             {
-                passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
+                passwordHash = await UserPasswordStore.GetPasswordHashAsync(User, HttpContext.RequestAborted);
             }
 
             ShowRemoveButton = passwordHash != null || CurrentLogins.Count > 1;
@@ -75,20 +77,20 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
+            var result = await _UserManager.RemoveLoginAsync(User, loginProvider, providerKey);
             if (!result.Succeeded)
             {
                 StatusMessage = "The external login was not removed.";
                 return RedirectToPage();
             }
 
-            await _signInManager.RefreshSignInAsync(user);
+            await _signInManager.RefreshSignInAsync(User);
             StatusMessage = "The external login was removed.";
             return RedirectToPage();
         }
@@ -98,28 +100,28 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            // Request a redirect to the external login provider to link a login for the current user
+            // Request a redirect to the external login provider to link a login for the current User
             var redirectUrl = Url.Page("./ExternalLogins", pageHandler: "LinkLoginCallback");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _UserManager.GetUserId(User));
             return new ChallengeResult(provider, properties);
         }
 
         public async Task<IActionResult> OnGetLinkLoginCallbackAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var userId = await _userManager.GetUserIdAsync(user);
-            var info = await _signInManager.GetExternalLoginInfoAsync(userId);
+            var UserId = await _UserManager.GetUserIdAsync(User);
+            var info = await _signInManager.GetExternalLoginInfoAsync(UserId);
             if (info == null)
             {
                 throw new InvalidOperationException($"Unexpected error occurred loading external login info.");
             }
 
-            var result = await _userManager.AddLoginAsync(user, info);
+            var result = await _UserManager.AddLoginAsync(User, info);
             if (!result.Succeeded)
             {
                 StatusMessage = "The external login was not added. External logins can only be associated with one account.";

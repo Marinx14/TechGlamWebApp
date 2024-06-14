@@ -7,18 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using TechGlamWebApp.Models;
+using WebApp.Models;
+
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
-        private readonly SignInManager<Utente> _signInManager;
+        private readonly UserManager<User> _UserManager;
+        private readonly SignInManager<User> _signInManager;
 
         public IndexModel(
-            UserManager<Utente> userManager,
-            SignInManager<Utente> signInManager)
+            UserManager<User> UserManager,
+            SignInManager<User> signInManager)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _signInManager = signInManager;
         }
 
@@ -57,12 +59,12 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(Utente user)
+        private async Task LoadAsync(User User)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var UserName = await _UserManager.GetUserNameAsync(User);
+            var phoneNumber = await _UserManager.GetPhoneNumberAsync(User);
 
-            Username = userName;
+            Username = UserName;
 
             Input = new InputModel
             {
@@ -72,34 +74,34 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            await LoadAsync(user);
+            await LoadAsync(User);
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var User = await _UserManager.GetUserAsync(User);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                await LoadAsync(User);
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var phoneNumber = await _UserManager.GetPhoneNumberAsync(User);
             if (Input.PhoneNumber != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                var setPhoneResult = await _UserManager.SetPhoneNumberAsync(User, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
@@ -107,7 +109,7 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            await _signInManager.RefreshSignInAsync(user);
+            await _signInManager.RefreshSignInAsync(User);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }

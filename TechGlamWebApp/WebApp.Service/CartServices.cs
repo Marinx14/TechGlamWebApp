@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 using WebApp.Data;
 using WebApp.Models;
 
-namespace Webapp.Services
+namespace WebApp.Service
 {
     public class CartServices
     {
-        public ApplicationDbContext _dbContext { get; set; }
+        public AppDbContext _dbContext { get; set; }
         public List<ClonedProduct> _clonedProducts { get; set; }
 
-        public CartServices(ApplicationDbContext dbContext)
+        public CartServices(AppDbContext dbContext)
         {
             _dbContext = dbContext;
             _clonedProducts = new List<ClonedProduct>();

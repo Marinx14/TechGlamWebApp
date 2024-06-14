@@ -10,17 +10,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using TechGlamWebApp.Models;
+using WebApp.Models;
+
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<Utente> _userManager;
+        private readonly UserManager<User> _UserManager;
         private readonly IEmailSender _sender;
 
-        public RegisterConfirmationModel(UserManager<Utente> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<User> UserManager, IEmailSender sender)
         {
-            _userManager = userManager;
+            _UserManager = UserManager;
             _sender = sender;
         }
 
@@ -50,10 +52,10 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
             }
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
+            var User = await _UserManager.FindByEmailAsync(email);
+            if (User == null)
             {
-                return NotFound($"Unable to load user with email '{email}'.");
+                return NotFound($"Unable to load User with email '{email}'.");
             }
 
             Email = email;
@@ -61,13 +63,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
             DisplayConfirmAccountLink = true;
             if (DisplayConfirmAccountLink)
             {
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var UserId = await _UserManager.GetUserIdAsync(User);
+                var code = await _UserManager.GenerateEmailConfirmationTokenAsync(User);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 EmailConfirmationUrl = Url.Page(
                     "/Account/ConfirmEmail",
                     pageHandler: null,
-                    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                    values: new { area = "Identity", UserId = UserId, code = code, returnUrl = returnUrl },
                     protocol: Request.Scheme);
             }
 

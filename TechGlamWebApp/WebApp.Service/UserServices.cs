@@ -1,7 +1,8 @@
 ﻿
+using WebApp.Data;
 using WebApp.Models;
 
-namespace WebApp.Services
+namespace WebApp.Service
 {
     /// <summary>
     /// Service class for managing user operations.

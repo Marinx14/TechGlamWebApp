@@ -1,56 +1,37 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*
+namespace TechGlamWebApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using WebApp.Data;
-using WebApp.Models;
 using WebApp.Services;
+using WebApp.ViewModels;
+using System.Threading.Tasks;
+using System;
 
-namespace TechGlamWebApp.Controllers
+namespace WebApp.Controllers
 {
-    public class UserController : Controller
+    public class UsersController : Controller
     {
-        public readonly UserServices _userServices;
+        private readonly IUserService _UserService;
 
-        public UserController(ApplicationDbContext dbContext)
+        public UsersController(IUserService UserService)
         {
-            _userServices = new UserServices(dbContext);
+            _UserService = UserService;
         }
 
-        [HttpGet]
-        [Route("/PersonalArea")]
-        [Authorize]
-        public async Task<IActionResult> PersonalArea()
+        public async Task<IActionResult> Index()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var personalArea = await _userServices.GetUserByIdAsync(userId);
-            return View(personalArea);
+            var Users = await _UserService.GetAllUsersAsync();
+            return View(Users);
         }
 
-        [HttpPost]
-        [Route("/PersonalArea")]
-        [Authorize]
-        public async Task<IActionResult> PersonalArea(string id, string firstName, string lastName, string phoneNumber, string email)
+        public async Task<IActionResult> Details(Guid id)
         {
-            var user = await _userServices.GetUserByIdAsync(id);
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber))
+            var User = await _UserService.GetUserByIdAsync(id);
+            if (User == null)
             {
-                return RedirectToAction("PersonalArea");
+                return NotFound();
             }
-
-            if (await _userServices.CheckEmailExists(email))
-            {
-                ModelState.AddModelError("Email", "The entered email is already associated with another user.");
-                return RedirectToAction("PersonalArea");
-            }
-
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.Email = email;
-            user.PhoneNumber = phoneNumber;
-
-            await _userServices.UpdateUser(user);
-            return RedirectToAction("PersonalArea");
+            return View(User);
         }
     }
 }
+*/

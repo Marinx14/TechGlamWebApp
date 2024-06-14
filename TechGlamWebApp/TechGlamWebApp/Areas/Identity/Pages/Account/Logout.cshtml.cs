@@ -6,15 +6,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TechGlamWebApp.Models;
+using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<Utente> _signInManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
 
-        public LogoutModel(SignInManager<Utente> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
@@ -31,7 +32,7 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
             else
             {
                 // This needs to be a redirect so that the browser performs a new
-                // request and the identity for the user gets updated.
+                // request and the identity for the User gets updated.
                 return RedirectToPage();
             }
         }
