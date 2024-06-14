@@ -10,7 +10,7 @@ namespace WebApp.Models
     {
         public Guid IdCart { get; set; }
         public string IdUser { get; set; }
-        public virtual ICollection<ClonedProduct> clonedProduct { get; set; } = null;
+        public List<ClonedProduct> ClonedProducts { get; set; }
     }
 
 

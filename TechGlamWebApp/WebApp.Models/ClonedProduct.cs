@@ -1,5 +1,5 @@
 ﻿using WebApp.Models;
-
+using WebApp.enumeration;
 /// <summary>
 /// Represents a cloned product.
 /// </summary>

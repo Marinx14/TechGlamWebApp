@@ -1,5 +1,5 @@
 ﻿using WebApp.Interfaces;
-
+using WebApp.enumeration;
 namespace WebApp.Models
 {
     /// <summary>

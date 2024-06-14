@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using WebApp.enumeration;
 using System;
 using System.Drawing;
 
@@ -14,6 +14,8 @@ namespace WebApp.Models
     /// </summary>
     public abstract class Product
     {
+       
+
         /// <summary>
         /// Gets or sets the unique identifier for the product.
         /// </summary>
@@ -56,8 +58,12 @@ namespace WebApp.Models
         /// <summary>
         /// Gets or sets the size of the product.
         /// </summary>
+        
         public WebAppEnum.SizeRingsBracelets Size { get; set; }
-      
+        
+        
+        public WebAppEnum.SizeWatches? SizeWatches;
+        public string MetalType { get; set; }
 
 
         /// <summary>
@@ -109,6 +115,8 @@ namespace WebApp.Models
                 Size = this.Size,
             };
         }
+
+        
     }
 
 
