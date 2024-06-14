@@ -7,7 +7,7 @@ using WebApp.Data;
 using WebApp.Models;
 using WebApp.Services;
 
-namespace WebApp.Controllers
+namespace TechGlamWebApp.Controllers
 {
     //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class CartController : Controller
