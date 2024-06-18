@@ -1,0 +1,50 @@
+﻿@model WebApp.Models.Product;
+@{
+    ViewBag.Title = "Products";
+}
+<br />
+<br />
+<br />
+<br />
+
+<main aria-labelledby="title">
+    <section class="">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="d-flex">
+                <div class="card h-100 col-4 mt-4">
+                    <!-- Product image-->
+                    <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                        <a asp-action="DettagliProdotto">
+                            <img src="~/images/@Model.Immagine" class="w-100" />
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- Product details-->
+                    <div class="card-body p-4 col-49 mt-4">
+                        <div class="">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">@Model.Name</h5>
+                            <!-- Product price-->
+                            <p class="mt-2">Price: <span>@Model.Price</span></p>
+
+                            <div class="col-12 mt-2">
+                               Size: @Model.Size
+                            </div>
+                            <h6 class="mt-2">Description:</h6>
+                            <p>@Model.Description</p>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" asp-action="Carrello">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>

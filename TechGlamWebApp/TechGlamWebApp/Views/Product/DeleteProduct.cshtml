@@ -1,0 +1,29 @@
+﻿@model WebApp.Modelli.Prodotto;
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elimina Prodotto</title>
+</head>
+<body>
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1>Elimina Prodotto</h1>
+    <form asp-action="EliminaProdotto" asp-route-id="@Model.IDProdotto" method="post">
+        <div class="form-group">
+            <label asp-for="Quantita" class="control-label"> Quantita </label>
+            <input asp-for="Quantita" class="form-control" min="0" value="0" type="number" required />
+            <span asp-validation-for="Quantita" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Elimina" />
+            <a asp-controller="Home" asp-action="Index"></a>
+        </div>
+    </form>
+
+</body>
+</html>

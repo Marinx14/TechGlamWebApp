@@ -1,115 +1,128 @@
-﻿@model WebApp.Modelli.Carrello;
+﻿@model WebApp.Models.Cart
+
 @{
     ViewBag.Title = "Carrello";
-    
 }
-<br />
-<br />
-<br />
-<br />
+
+/* Linking external and internal CSS files */
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+<link href="~/css/site.css" rel="stylesheet" />
+
+<!-- Navbar with Logo -->
+<nav class="navbar">
+    <a class="navbar-brand" href="#">
+        <!-- Logo image -->
+        <img src="~/images/Immagine WhatsApp 2024-06-12 ore 11.44.15_e7d253bb.jpg" alt="Tech Glam">
+    </a>
+</nav>
+
 <main aria-labelledby="title">
+    <!-- Main section with gradient background -->
     <section class="h-100 gradient-custom">
         <div class="container py-5">
             <div class="row d-flex justify-content-center my-4">
                 <div class="col-md-8">
+                    <!-- Cart card -->
                     <div class="card mb-4">
+                        <!-- Card header displaying the number of products in the cart -->
                         <div class="card-header py-3">
-                            <h5 class="mb-0">Carrello - @Model.prodottiClonati.Count</h5>
+                            <h5 class="mb-0">Carrello - @Model.ClonedProducts.Count</h5>
                         </div>
+                        <!-- Card body containing the list of products -->
                         <div class="card-body border-bottom">
-                            @foreach (var prodotto in Model.prodottiClonati)
+                            @foreach (var product in Model.ClonedProducts)
                             {
-                                <div class="row">
+                                <div class="row mb-3">
+                                    <!-- Product image -->
                                     <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
                                         <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                            <!-- Image -->
-                                            <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                                <img src="~/immagini/@prodotto.Immagine"
-                                                     class="w-100" alt="immagine non caricata" />
-                                                <a href="#!">
-                                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
-                                                </a>
-                                            </div>
+                                            <img src="~/images/@product.Image" class="w-100" alt="Image not loaded" />
+                                            <a href="#!">
+                                                <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                                            </a>
                                         </div>
                                     </div>
 
+                                    <!-- Product details -->
                                     <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                                        <p><strong>@prodotto.Nome</strong></p>
-                                        <p>Colore: @prodotto.Colore</p>
-                                        <p>Taglia: @prodotto.Taglia</p>
-
-                                        <form method="post" asp-controller="Carrello" asp-action="EliminaProdottoCarrello" asp-route-id="@prodotto.IDProdottoClonato">
+                                        <p><strong>@product.Name</strong></p>
+                                        <p>Color: @product.Color</p>
+                                        <p>Size: @product.Size</p>
+                                        <form method="post" asp-controller="Cart" asp-action="RemoveProductFromCart" asp-route-id="@product.ID">
                                             <button type="submit" class="btn btn-outline-dark" data-mdb-toggle="tooltip" title="Remove item">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
-
                                     </div>
 
+                                    <!-- Product quantity and total price -->
                                     <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                                         <div class="d-flex mb-4" style="max-width: 300px">
-                                            <button class="btn btn-outline-dark" onclick="@prodotto.QuantitaOrdinati-=1">
+                                            <button class="btn btn-outline-dark" onclick="decreaseQuantity('@product.ID')">
                                                 <i class="fas fa-minus"></i>
                                             </button>
 
                                             <div class="form-outline d-flex align-items-center">
-                                                <input id="form1" min="0" name="quantity" value="@prodotto.QuantitaOrdinati" type="number" class="form-control text-center" />
+                                                <input id="form1" min="0" name="quantity" value="@product.OrderedQuantity" type="number" class="form-control text-center" />
                                             </div>
 
-                                            <button class="btn btn-outline-dark" onclick="@prodotto.QuantitaOrdinati+=1">
+                                            <button class="btn btn-outline-dark" onclick="increaseQuantity('@product.ID')">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
                                         <p class="text-start text-md-center">
-                                            <strong>@{var somma = prodotto.Prezzo * prodotto.QuantitaOrdinati;}
-                                                @somma.ToString("C")
-                                            </strong>
+                                            <strong>@(product.Price * product.OrderedQuantity).ToString("C")</strong>
                                         </p>
                                     </div>
                                 </div>
                             }
                         </div>
+
+                        <!-- Calculate the total price of all products in the cart -->
                         @{
-                        decimal totale = 0;
-                        foreach (var prodotto in Model.prodottiClonati)
-                        {
-                        // Calcola il prezzo totale per ciascun prodotto (prezzo * quantitaOrdinati)
-                        decimal prezzoTotaleProdotto = prodotto.Prezzo * prodotto.QuantitaOrdinati;
-                        // Aggiungi il prezzo totale del prodotto al totale generale
-                        totale += prezzoTotaleProdotto;
-                        }
+                            decimal total = Model.ClonedProducts.Sum(product => product.Price * product.OrderedQuantity);
                         }
 
+                        <!-- Display total price -->
                         <div class="card-body">
-                            <!-- Visualizza il totale -->
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                                    Prodotti
-                                    <span>@totale.ToString("C")</span>
+                                    Products
+                                    <span>@total.ToString("C")</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                                     <div>
-                                        <strong>Totale</strong>
+                                        <strong>Total</strong>
                                         <strong>
-                                            <p class="mb-0">(IVA inclusa)</p>
+                                            <p class="mb-0">(Including VAT)</p>
                                         </strong>
                                     </div>
-                                    <form method="post" asp-action="InvioProdottiCarrello">
-                                        <button class="btn btn-outline-dark mt-auto" type="submit"> Invio Prodotti </button>
-                                    </form>
-                                    <form method="post" asp-action="SvuotaCarrello">
-                                        <button class="btn btn-outline-dark mt-auto" type="submit"> Svuota Carrello </button>
-                                    </form>
-                                    <span><strong>@totale.ToString("C")</strong></span>
+                                    <span><strong>@total.ToString("C")</strong></span>
                                 </li>
                             </ul>
+                            <!-- Submit cart products form -->
+                            <form method="post" asp-action="SubmitCartProducts">
+                                <button class="btn btn-outline-dark mt-auto" type="submit">Submit Products</button>
+                            </form>
+                            <!-- Empty cart form -->
+                            <form method="post" asp-action="EmptyCart">
+                                <button class="btn btn-outline-dark mt-auto" type="submit">Empty Cart</button>
+                            </form>
                         </div>
                     </div>
-               </div>
+                </div>
             </div>
         </div>
     </section>
 </main>
 
- 
+<script>
+    // JavaScript functions to decrease or increase product quantity
+    function decreaseQuantity(productId) {
+        // Logic to decrease quantity
+    }
+
+    function increaseQuantity(productId) {
+        // Logic to increase quantity
+    }
+</script>

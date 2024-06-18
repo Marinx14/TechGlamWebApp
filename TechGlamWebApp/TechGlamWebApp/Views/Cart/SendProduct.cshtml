@@ -1,0 +1,29 @@
+﻿@model WebApp.Models.Cart
+@{
+    ViewBag.Title = "Order Completed";
+}
+
+<!-- Spacer for visual separation -->
+<br />
+<br />
+<br />
+<br />
+
+<!-- Success message row -->
+<div class="row">
+    <!-- Success message column centered on the page -->
+    <div class="col-md-6 offset-3 alert alert-success text-center">
+        <h2>Order placed successfully!</h2>
+        <p>You will receive an email when the order is ready for pickup.</p>
+        <hr/>
+        <p>Thank you!</p>
+    </div>
+</div>
+
+<!-- Script to redirect to the homepage after a delay -->
+<script>
+    // Function to redirect to the homepage after 5 seconds
+    setTimeout(function(){
+        window.location.href = '@Url.Action("Index", "Home")';
+    }, 5000); // 5000 milliseconds = 5 seconds
+</script>
