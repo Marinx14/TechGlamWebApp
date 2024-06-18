@@ -1,0 +1,115 @@
+﻿@model WebApp.Modelli.Carrello;
+@{
+    ViewBag.Title = "Carrello";
+    
+}
+<br />
+<br />
+<br />
+<br />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+<main aria-labelledby="title">
+    <section class="h-100 gradient-custom">
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center my-4">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="mb-0">Carrello - @Model.prodottiClonati.Count</h5>
+                        </div>
+                        <div class="card-body border-bottom">
+                            @foreach (var prodotto in Model.prodottiClonati)
+                            {
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                        <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                                            <!-- Image -->
+                                            <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                                                <img src="~/immagini/@prodotto.Immagine"
+                                                     class="w-100" alt="immagine non caricata" />
+                                                <a href="#!">
+                                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                        <p><strong>@prodotto.Nome</strong></p>
+                                        <p>Colore: @prodotto.Colore</p>
+                                        <p>Taglia: @prodotto.Taglia</p>
+
+                                        <form method="post" asp-controller="Carrello" asp-action="EliminaProdottoCarrello" asp-route-id="@prodotto.IDProdottoClonato">
+                                            <button type="submit" class="btn btn-outline-dark" data-mdb-toggle="tooltip" title="Remove item">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                        <div class="d-flex mb-4" style="max-width: 300px">
+                                            <button class="btn btn-outline-dark" onclick="@prodotto.QuantitaOrdinati-=1">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+
+                                            <div class="form-outline d-flex align-items-center">
+                                                <input id="form1" min="0" name="quantity" value="@prodotto.QuantitaOrdinati" type="number" class="form-control text-center" />
+                                            </div>
+
+                                            <button class="btn btn-outline-dark" onclick="@prodotto.QuantitaOrdinati+=1">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <p class="text-start text-md-center">
+                                            <strong>@{var somma = prodotto.Prezzo * prodotto.QuantitaOrdinati;}
+                                                @somma.ToString("C")
+                                            </strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @{
+                        decimal totale = 0;
+                        foreach (var prodotto in Model.prodottiClonati)
+                        {
+                        // Calcola il prezzo totale per ciascun prodotto (prezzo * quantitaOrdinati)
+                        decimal prezzoTotaleProdotto = prodotto.Prezzo * prodotto.QuantitaOrdinati;
+                        // Aggiungi il prezzo totale del prodotto al totale generale
+                        totale += prezzoTotaleProdotto;
+                        }
+                        }
+
+                        <div class="card-body">
+                            <!-- Visualizza il totale -->
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                    Prodotti
+                                    <span>@totale.ToString("C")</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                    <div>
+                                        <strong>Totale</strong>
+                                        <strong>
+                                            <p class="mb-0">(IVA inclusa)</p>
+                                        </strong>
+                                    </div>
+                                    <form method="post" asp-action="InvioProdottiCarrello">
+                                        <button class="btn btn-outline-dark mt-auto" type="submit"> Invio Prodotti </button>
+                                    </form>
+                                    <form method="post" asp-action="SvuotaCarrello">
+                                        <button class="btn btn-outline-dark mt-auto" type="submit"> Svuota Carrello </button>
+                                    </form>
+                                    <span><strong>@totale.ToString("C")</strong></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+               </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+ 
