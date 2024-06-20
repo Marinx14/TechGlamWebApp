@@ -63,7 +63,7 @@
                                             </button>
 
                                             <div class="form-outline d-flex align-items-center">
-                                                <input id="form1" min="0" name="quantity" value="@product.OrderedQuantity" type="number" class="form-control text-center" />
+                                                <input id="form1" min="0" name="quantity" value="@product.QuantityOrdered" type="number" class="form-control text-center" />
                                             </div>
 
                                             <button class="btn btn-outline-dark" onclick="increaseQuantity('@product.ID')">
@@ -71,7 +71,7 @@
                                             </button>
                                         </div>
                                         <p class="text-start text-md-center">
-                                            <strong>@(product.Price * product.OrderedQuantity).ToString("C")</strong>
+                                            <strong>@(product.Price * product.QuantityOrdered).ToString("C")</strong>
                                         </p>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
 
                         <!-- Calculate the total price of all products in the cart -->
                         @{
-                            decimal total = Model.ClonedProducts.Sum(product => product.Price * product.OrderedQuantity);
+                            decimal total = Model.ClonedProducts.Sum(product => product.Price * product.QuantityOrdered);
                         }
 
                         <!-- Display total price -->

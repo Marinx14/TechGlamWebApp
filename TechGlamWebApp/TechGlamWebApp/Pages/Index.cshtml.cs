@@ -12,6 +12,9 @@ namespace TechGlamWebApp.Pages
             _logger = logger;
         }
 
+        public object Input { get; set; }
+        public object Username { get; set; }
+
         public void OnGet()
         {
 

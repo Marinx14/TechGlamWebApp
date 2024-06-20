@@ -1,5 +1,7 @@
 ﻿@page
-@model DeletePersonalDataModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using TechGlamWebApp.Areas.Identity.Pages.Account.Manage
+@model TechGlamWebApp.Areas.Identity.Pages.Account.Manage.DeletePersonalDataModel
 @{
     ViewData["Title"] = "Delete Personal Data";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
@@ -28,6 +30,8 @@
     </form>
 </div>
 
+@*
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+*@

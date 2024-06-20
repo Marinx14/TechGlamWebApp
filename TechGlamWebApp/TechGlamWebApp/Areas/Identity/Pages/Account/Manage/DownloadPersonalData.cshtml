@@ -1,5 +1,7 @@
 ﻿@page
-@model DownloadPersonalDataModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using TechGlamWebApp.Areas.Identity.Pages.Account.Manage
+@model TechGlamWebApp.Areas.Identity.Pages.Account.Manage.DownloadPersonalDataModel
 @{
     ViewData["Title"] = "Download Your Data";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
@@ -7,6 +9,8 @@
 
 <h3>@ViewData["Title"]</h3>
 
+@*
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+*@

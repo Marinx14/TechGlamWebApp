@@ -1,4 +1,4 @@
-@model TechGlamWebApp.ViewModel.ProductViewModel; 
+@model WebApp.ViewModels.ProductViewModel; 
 
 <!DOCTYPE html>
 <html lang="it">
@@ -11,7 +11,7 @@
     <h1>Update Product</h1>
     <div class="col-lg-6">
         <div class="row">
-            <form asp-action="UpdateProduct" asp-route-id="@Model.ProductId" method="post">
+            <form asp-action="UpdateProduct" asp-route-id="@Model.ProductID" method="post">
                 <!-- Input field for product name -->
                 <div class="col-12 mt-4">
                     <label asp-for="Name" class="control-label"></label>
@@ -48,13 +48,13 @@
                 </div>
 
 <div class="col-12 mt-4">
-    <label asp-for="Categoria" class="control-label">Category</label>
-    <select asp-for="Categoria" class="form-control" required>
+    <label asp-for="Category" class="control-label">Category</label>
+    <select asp-for="Category" class="form-control" required>
         <option value="Rings">Rings</option>
         <option value="Bracelets">Bracelets</option>
         <option value="Watches">Watches</option>
     </select>
-    <span asp-validation-for="Categoria" class="text-danger"></span>
+    <span asp-validation-for="Category" class="text-danger"></span>
 </div>
 
 

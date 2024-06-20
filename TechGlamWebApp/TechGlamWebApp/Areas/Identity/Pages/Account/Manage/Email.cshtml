@@ -1,5 +1,7 @@
 ﻿@page
-@model EmailModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using TechGlamWebApp.Areas.Identity.Pages.Account.Manage
+@model TechGlamWebApp.Areas.Identity.Pages.Account.Manage.EmailModel
 @{
     ViewData["Title"] = "Manage Email";
     ViewData["ActivePage"] = ManageNavPages.Email;
@@ -39,6 +41,8 @@
     </div>
 </div>
 
+@*
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+*@

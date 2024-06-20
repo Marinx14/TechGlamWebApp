@@ -1,4 +1,4 @@
-@model TechGlamWebApp.ViewModel.ProductViewModel
+@model WebApp.ViewModels.ProductViewModel
 
 <!DOCTYPE html>
 <html lang="it">
@@ -54,25 +54,25 @@
 
                 <!-- Dropdown for product category -->
                 <div class="col-12 mt-4">
-                    <label asp-for="Categoria" class="control-label">Category</label>
-                    <select asp-for="Categoria" class="form-control" required>
+                    <label asp-for="Category" class="control-label">Category</label>
+                    <select asp-for="Category" class="form-control" required>
                         <option value="Rings">Rings</option>
                         <option value="Bracelets">Bracelets</option>
                         <option value="Watches">Watches</option>
                     </select>
-                    <span asp-validation-for="Categoria" class="text-danger"></span>
+                    <span asp-validation-for="Category" class="text-danger"></span>
                 </div>
 
                 <!-- Dropdown for product size -->
                 <div class="col-12 mt-4">
-                    <label asp-for="Taglia" class="control-label">Size (Rings and Bracelets)</label>
-                    <select asp-for="Taglia" class="form-control" required>
+                    <label asp-for="SizeRingsBracelets" class="control-label">Size (Rings and Bracelets)</label>
+                    <select asp-for="SizeRingsBracelets" class="form-control" required>
                         <option value="S">S</option>
                         <option value="M">M</option>
                         <option value="L">L</option>
                         <option value="XL">XL</option>
                     </select>
-                    <span asp-validation-for="Taglia" class="text-danger"></span>
+                    <span asp-validation-for="SizeWatches" class="text-danger"></span>
                 </div>
 
                 <div class="col-12 mt-4">
@@ -87,9 +87,9 @@
 
                 <!-- Input field for product color -->
                 <div class="col-12 mt-4">
-                    <label asp-for="Colore" class="control-label"></label>
-                    <input asp-for="Colore" class="form-control" required />
-                    <span asp-validation-for="Colore" class="text-danger"></span>
+                    <label asp-for="Color" class="control-label"></label>
+                    <input asp-for="Color" class="form-control" required />
+                    <span asp-validation-for="Color" class="text-danger"></span>
                 </div>
 
                 <!-- Submit button to create the product -->

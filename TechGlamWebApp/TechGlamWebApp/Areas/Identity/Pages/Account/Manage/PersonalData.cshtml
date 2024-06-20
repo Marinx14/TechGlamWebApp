@@ -1,5 +1,7 @@
 ﻿@page
-@model PersonalDataModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using TechGlamWebApp.Areas.Identity.Pages.Account.Manage
+@model TechGlamWebApp.Areas.Identity.Pages.Account.Manage.PersonalDataModel
 @{
     ViewData["Title"] = "Personal Data";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
@@ -22,6 +24,7 @@
     </div>
 </div>
 
+@*
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
+}*@

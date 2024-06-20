@@ -1,5 +1,7 @@
 ﻿@page
-@model EnableAuthenticatorModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using TechGlamWebApp.Areas.Identity.Pages.Account.Manage
+@model TechGlamWebApp.Areas.Identity.Pages.Account.Manage.EnableAuthenticatorModel
 @{
     ViewData["Title"] = "Configure authenticator app";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
@@ -48,6 +50,6 @@
     </ol>
 </div>
 
-@section Scripts {
+@*@section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
+}*@
