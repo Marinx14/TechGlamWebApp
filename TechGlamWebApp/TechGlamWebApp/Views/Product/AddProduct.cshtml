@@ -1,91 +1,105 @@
-﻿@model WebApp.ViewModel.ProdottoVM
+@model TechGlamWebApp.ViewModel.ProductViewModel
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inserimento Prodotto</title>
+    <title>Insert Product</title>
 </head>
 <body>
-    <h1>Inserimento Prodotto</h1>
+    <h1>Insert Product</h1>
     <div class="col-lg-6">
         <div class="row">
-            <form asp-action="AggiungiProdotto" method="post" enctype="multipart/form-data">
+            <form asp-action="AddProduct" method="post" enctype="multipart/form-data">
+                <!-- Validation summary for model errors -->
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+                <!-- Input field for product name -->
                 <div class="col-12 mt-4">
-                    <label asp-for="Nome" class="control-label"></label>
-                    <input asp-for="Nome" class="form-control" required />
-                    <span asp-validation-for="Nome" class="text-danger"></span>
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
+                
+                <!-- Input field for product image -->
                 <div class="col-12 mt-4 form-control">
-                    <label asp-for="Immagine" class="control-label"></label>
-                    <input asp-for="Immagine" class="form-control" required />
-                    <span asp-validation-for="Immagine" class="text-danger"></span>
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" class="form-control" required />
+                    <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
-                <div class="col-12 mt-4 ">
-                    <label asp-for="Descrizione" class="control-label"></label>
-                    <textarea asp-for="Descrizione" class="form-control" required>
-                        </textarea>
-                    <span asp-validation-for="Descrizione" class="text-danger"></span>
-                </div>
-
-                <div class="d-flex row">
-                    <div class="col-6 mt-4">
-                        <label asp-for="Prezzo" class="control-label"></label>
-                        <input asp-for="Prezzo" class="form-control" required />
-                        <span asp-validation-for="Prezzo" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-6 mt-4">
-                        <label asp-for="Quantita" class="control-label"> Quantita </label>
-                        <input asp-for="Quantita" class="form-control" min="0" type="number" required />
-                        <span asp-validation-for="Quantita" class="text-danger"></span>
-                    </div>
-                </div>
-
+                
+                <!-- Text area for product description -->
                 <div class="col-12 mt-4">
-                    <label asp-for="Categoria" class="control-label"></label>
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" required></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Two-column layout for price and quantity -->
+                <div class="d-flex row">
+                    <!-- Input field for product price -->
+                    <div class="col-6 mt-4">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" required />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <!-- Input field for product quantity -->
+                    <div class="col-6 mt-4">
+                        <label asp-for="Quantity" class="control-label"> Quantity </label>
+                        <input asp-for="Quantity" class="form-control" min="0" type="number" required />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Dropdown for product category -->
+                <div class="col-12 mt-4">
+                    <label asp-for="Categoria" class="control-label">Category</label>
                     <select asp-for="Categoria" class="form-control" required>
-                        <option value="Maglia">Maglia</option>
-                        <option value="Pantalone">Pantalone</option>
-                        <option value="Giacca">Giacca</option>
-                        <option value="Felpa">Felpa</option>
-                        <option value="Camicia">Camicia</option>
-                        <option value="Maglione">Maglione</option>
-                        <option value="Tuta">Tuta</option>
+                        <option value="Rings">Rings</option>
+                        <option value="Bracelets">Bracelets</option>
+                        <option value="Watches">Watches</option>
                     </select>
                     <span asp-validation-for="Categoria" class="text-danger"></span>
                 </div>
 
+                <!-- Dropdown for product size -->
                 <div class="col-12 mt-4">
-                    <label asp-for="Taglia" class="control-label"></label>
+                    <label asp-for="Taglia" class="control-label">Size (Rings and Bracelets)</label>
                     <select asp-for="Taglia" class="form-control" required>
-                        <option value="XXS">XXS</option>
-                        <option value="XS">XS</option>
                         <option value="S">S</option>
                         <option value="M">M</option>
                         <option value="L">L</option>
                         <option value="XL">XL</option>
-                        <option value="XXL">XXL</option>
                     </select>
                     <span asp-validation-for="Taglia" class="text-danger"></span>
                 </div>
 
+                <div class="col-12 mt-4">
+                    <label asp-for="SizeWatches" class="control-label">Size (Watches)</label>
+                    <select asp-for="SizeWatches" class="form-control" required>
+                        <option value="40">40 mm</option>
+                        <option value="44">44 mm</option>
+                        <option value="45">45 mm</option>
+                    </select>
+                    <span asp-validation-for="SizeWatches" class="text-danger"></span>
+                </div>
+
+                <!-- Input field for product color -->
                 <div class="col-12 mt-4">
                     <label asp-for="Colore" class="control-label"></label>
                     <input asp-for="Colore" class="form-control" required />
                     <span asp-validation-for="Colore" class="text-danger"></span>
                 </div>
 
+                <!-- Submit button to create the product -->
                 <div class="col-12 mt-4">
-                    <input class="mt-2 btn btn-outline-dark w-100" type="submit" value="Crea" />
-                    <a asp-controller="Prodotto" asp-action="AggiungiProdotto"></a>
+                    <input class="mt-2 btn btn-outline-dark w-100" type="submit" value="Create" />
+                    <!-- Cancel link to redirect to Prodotto/AggiungiProdotto action -->
+                    <a asp-controller="Prodotto" asp-action="AggiungiProdotto" class="btn btn-outline-dark w-100 mt-2">Cancel</a>
                 </div>
             </form>
         </div>
     </div>
-
 </body>
 </html>
