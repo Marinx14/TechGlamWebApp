@@ -32,13 +32,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGet()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            if (!await _UserManager.GetTwoFactorEnabledAsync(User))
+            if (!await _UserManager.GetTwoFactorEnabledAsync(currentUser))
             {
                 throw new InvalidOperationException($"Cannot disable 2FA for User as it's not currently enabled.");
             }
@@ -48,13 +48,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var disable2faResult = await _UserManager.SetTwoFactorEnabledAsync(User, false);
+            var disable2faResult = await _UserManager.SetTwoFactorEnabledAsync(currentUser, false);
             if (!disable2faResult.Succeeded)
             {
                 throw new InvalidOperationException($"Unexpected error occurred disabling 2FA.");

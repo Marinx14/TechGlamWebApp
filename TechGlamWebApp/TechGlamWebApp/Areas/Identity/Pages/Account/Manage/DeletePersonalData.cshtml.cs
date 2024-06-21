@@ -57,36 +57,36 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGet()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            RequirePassword = await _UserManager.HasPasswordAsync(User);
+            RequirePassword = await _UserManager.HasPasswordAsync(currentUser);
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            RequirePassword = await _UserManager.HasPasswordAsync(User);
+            RequirePassword = await _UserManager.HasPasswordAsync(currentUser);
             if (RequirePassword)
             {
-                if (!await _UserManager.CheckPasswordAsync(User, Input.Password))
+                if (!await _UserManager.CheckPasswordAsync(currentUser, Input.Password))
                 {
                     ModelState.AddModelError(string.Empty, "Incorrect password.");
                     return Page();
                 }
             }
 
-            var result = await _UserManager.DeleteAsync(User);
-            var UserId = await _UserManager.GetUserIdAsync(User);
+            var result = await _UserManager.DeleteAsync(currentUser);
+            var currentUserId = await _UserManager.GetUserIdAsync(currentUser);
             if (!result.Succeeded)
             {
                 throw new InvalidOperationException($"Unexpected error occurred deleting User.");
@@ -94,7 +94,7 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.SignOutAsync();
 
-            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", UserId);
+            _logger.LogInformation("User with ID '{currentUserId}' deleted themselves.", currentUserId);
 
             return Redirect("~/");
         }

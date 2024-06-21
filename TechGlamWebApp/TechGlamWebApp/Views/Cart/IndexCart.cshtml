@@ -1,10 +1,10 @@
 ﻿@model WebApp.Models.Cart
 
 @{
-    ViewBag.Title = "Carrello";
+ViewBag.Title = "Carrello";
 }
 
-/* Linking external and internal CSS files */
+<!-- Linking external and internal CSS files -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
 <link href="~/css/site.css" rel="stylesheet" />
 
@@ -32,55 +32,55 @@
                         <div class="card-body border-bottom">
                             @foreach (var product in Model.ClonedProducts)
                             {
-                                <div class="row mb-3">
-                                    <!-- Product image -->
-                                    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                                        <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                            <img src="~/images/@product.Image" class="w-100" alt="Image not loaded" />
-                                            <a href="#!">
-                                                <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <!-- Product details -->
-                                    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                                        <p><strong>@product.Name</strong></p>
-                                        <p>Color: @product.Color</p>
-                                        <p>Size: @product.Size</p>
-                                        <form method="post" asp-controller="Cart" asp-action="RemoveProductFromCart" asp-route-id="@product.ID">
-                                            <button type="submit" class="btn btn-outline-dark" data-mdb-toggle="tooltip" title="Remove item">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-
-                                    <!-- Product quantity and total price -->
-                                    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                                        <div class="d-flex mb-4" style="max-width: 300px">
-                                            <button class="btn btn-outline-dark" onclick="decreaseQuantity('@product.ID')">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-
-                                            <div class="form-outline d-flex align-items-center">
-                                                <input id="form1" min="0" name="quantity" value="@product.QuantityOrdered" type="number" class="form-control text-center" />
-                                            </div>
-
-                                            <button class="btn btn-outline-dark" onclick="increaseQuantity('@product.ID')">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                        <p class="text-start text-md-center">
-                                            <strong>@(product.Price * product.QuantityOrdered).ToString("C")</strong>
-                                        </p>
+                            <div class="row mb-3">
+                                <!-- Product image -->
+                                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                    <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                                        <img src="~/images/@product.Image" class="w-100" alt="Image not loaded" />
+                                        <a href="#!">
+                                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                                        </a>
                                     </div>
                                 </div>
+
+                                <!-- Product details -->
+                                <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                    <p><strong>@product.Name</strong></p>
+                                    <p>Color: @product.Color</p>
+                                    <p>Size: @product.Size</p>
+                                    <form method="post" asp-controller="Cart" asp-action="RemoveProductFromCart" asp-route-productId="@product.ClonedProductID">
+                                        <button type="submit" class="btn btn-outline-dark" data-mdb-toggle="tooltip" title="Remove item">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <!-- Product quantity and total price -->
+                                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                    <div class="d-flex mb-4" style="max-width: 300px">
+                                        <button class="btn btn-outline-dark" onclick="decreaseQuantity('@product.ClonedProductID')">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+
+                                        <div class="form-outline d-flex align-items-center">
+                                            <input id="form1" min="0" name="quantity" value="@product.QuantityOrdered" type="number" class="form-control text-center" />
+                                        </div>
+
+                                        <button class="btn btn-outline-dark" onclick="increaseQuantity('@product.ClonedProductID')">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <p class="text-start text-md-center">
+                                        <strong>@(product.Price * product.QuantityOrdered).ToString("C")</strong>
+                                    </p>
+                                </div>
+                            </div>
                             }
                         </div>
 
                         <!-- Calculate the total price of all products in the cart -->
                         @{
-                            decimal total = Model.ClonedProducts.Sum(product => product.Price * product.QuantityOrdered);
+                        decimal total = Model.ClonedProducts.Sum(product => product.Price * product.QuantityOrdered);
                         }
 
                         <!-- Display total price -->

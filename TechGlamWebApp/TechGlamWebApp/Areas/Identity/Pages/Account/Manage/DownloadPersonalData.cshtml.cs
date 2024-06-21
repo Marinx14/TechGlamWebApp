@@ -31,8 +31,8 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
@@ -45,16 +45,16 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                             prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
             foreach (var p in personalDataProps)
             {
-                personalData.Add(p.Name, p.GetValue(User)?.ToString() ?? "null");
+                personalData.Add(p.Name, p.GetValue(currentUser)?.ToString() ?? "null");
             }
 
-            var logins = await _UserManager.GetLoginsAsync(User);
+            var logins = await _UserManager.GetLoginsAsync(currentUser);
             foreach (var l in logins)
             {
                 personalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
             }
 
-            personalData.Add($"Authenticator Key", await _UserManager.GetAuthenticatorKeyAsync(User));
+            personalData.Add($"Authenticator Key", await _UserManager.GetAuthenticatorKeyAsync(currentUser));
 
             Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
             return new FileContentResult(JsonSerializer.SerializeToUtf8Bytes(personalData), "application/json");

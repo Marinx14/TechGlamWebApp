@@ -39,13 +39,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var isTwoFactorEnabled = await _UserManager.GetTwoFactorEnabledAsync(User);
+            var isTwoFactorEnabled = await _UserManager.GetTwoFactorEnabledAsync(currentUser);
             if (!isTwoFactorEnabled)
             {
                 throw new InvalidOperationException($"Cannot generate recovery codes for User because they do not have 2FA enabled.");
@@ -56,20 +56,20 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var isTwoFactorEnabled = await _UserManager.GetTwoFactorEnabledAsync(User);
-            var UserId = await _UserManager.GetUserIdAsync(User);
+            var isTwoFactorEnabled = await _UserManager.GetTwoFactorEnabledAsync(currentUser);
+            var UserId = await _UserManager.GetUserIdAsync(currentUser);
             if (!isTwoFactorEnabled)
             {
                 throw new InvalidOperationException($"Cannot generate recovery codes for User as they do not have 2FA enabled.");
             }
 
-            var recoveryCodes = await _UserManager.GenerateNewTwoFactorRecoveryCodesAsync(User, 10);
+            var recoveryCodes = await _UserManager.GenerateNewTwoFactorRecoveryCodesAsync(currentUser, 10);
             RecoveryCodes = recoveryCodes.ToArray();
 
             _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", UserId);

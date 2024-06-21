@@ -13,14 +13,14 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
-        private readonly UserManager<User> _UserManager;
+        private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
         public SetPasswordModel(
-            UserManager<User> UserManager,
+            UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
-            _UserManager = UserManager;
+            _userManager = userManager;
             _signInManager = signInManager;
         }
 
@@ -66,13 +66,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
             {
-                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var hasPassword = await _UserManager.HasPasswordAsync(User);
+            var hasPassword = await _userManager.HasPasswordAsync(currentUser);
 
             if (hasPassword)
             {
@@ -89,13 +89,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
             {
-                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var addPasswordResult = await _UserManager.AddPasswordAsync(User, Input.NewPassword);
+            var addPasswordResult = await _userManager.AddPasswordAsync(currentUser, Input.NewPassword);
             if (!addPasswordResult.Succeeded)
             {
                 foreach (var error in addPasswordResult.Errors)
@@ -105,7 +105,7 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            await _signInManager.RefreshSignInAsync(User);
+            await _signInManager.RefreshSignInAsync(currentUser);
             StatusMessage = "Your password has been set.";
 
             return RedirectToPage();

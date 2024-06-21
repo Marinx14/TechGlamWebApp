@@ -84,28 +84,28 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            await LoadSharedKeyAndQrCodeUriAsync(User);
+            await LoadSharedKeyAndQrCodeUriAsync(currentUser);
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadSharedKeyAndQrCodeUriAsync(User);
+                await LoadSharedKeyAndQrCodeUriAsync(currentUser);
                 return Page();
             }
 
@@ -113,24 +113,24 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
             var verificationCode = Input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
             var is2faTokenValid = await _UserManager.VerifyTwoFactorTokenAsync(
-                User, _UserManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
+                currentUser, _UserManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
             if (!is2faTokenValid)
             {
                 ModelState.AddModelError("Input.Code", "Verification code is invalid.");
-                await LoadSharedKeyAndQrCodeUriAsync(User);
+                await LoadSharedKeyAndQrCodeUriAsync(currentUser);
                 return Page();
             }
 
-            await _UserManager.SetTwoFactorEnabledAsync(User, true);
-            var UserId = await _UserManager.GetUserIdAsync(User);
+            await _UserManager.SetTwoFactorEnabledAsync(currentUser, true);
+            var UserId = await _UserManager.GetUserIdAsync(currentUser);
             _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", UserId);
 
             StatusMessage = "Your authenticator app has been verified.";
 
-            if (await _UserManager.CountRecoveryCodesAsync(User) == 0)
+            if (await _UserManager.CountRecoveryCodesAsync(currentUser) == 0)
             {
-                var recoveryCodes = await _UserManager.GenerateNewTwoFactorRecoveryCodesAsync(User, 10);
+                var recoveryCodes = await _UserManager.GenerateNewTwoFactorRecoveryCodesAsync(currentUser, 10);
                 RecoveryCodes = recoveryCodes.ToArray();
                 return RedirectToPage("./ShowRecoveryCodes");
             }
@@ -140,19 +140,19 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
             }
         }
 
-        private async Task LoadSharedKeyAndQrCodeUriAsync(User User)
+        private async Task LoadSharedKeyAndQrCodeUriAsync(User currentUser)
         {
             // Load the authenticator key & QR code URI to display on the form
-            var unformattedKey = await _UserManager.GetAuthenticatorKeyAsync(User);
+            var unformattedKey = await _UserManager.GetAuthenticatorKeyAsync(currentUser);
             if (string.IsNullOrEmpty(unformattedKey))
             {
-                await _UserManager.ResetAuthenticatorKeyAsync(User);
-                unformattedKey = await _UserManager.GetAuthenticatorKeyAsync(User);
+                await _UserManager.ResetAuthenticatorKeyAsync(currentUser);
+                unformattedKey = await _UserManager.GetAuthenticatorKeyAsync(currentUser);
             }
 
             SharedKey = FormatKey(unformattedKey);
 
-            var email = await _UserManager.GetEmailAsync(User);
+            var email = await _UserManager.GetEmailAsync(currentUser);
             AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
         }
 
@@ -184,3 +184,4 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
         }
     }
 }
+    

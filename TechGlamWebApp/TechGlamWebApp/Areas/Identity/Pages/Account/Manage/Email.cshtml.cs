@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using TechGlamWebApp.Models;
 using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
@@ -73,9 +72,9 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
             public string NewEmail { get; set; }
         }
 
-        private async Task LoadAsync(User User)
+        private async Task LoadAsync(User currentUser)
         {
-            var email = await _UserManager.GetEmailAsync(User);
+            var email = await _UserManager.GetEmailAsync(currentUser);
             Email = email;
 
             Input = new InputModel
@@ -83,40 +82,40 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 NewEmail = email,
             };
 
-            IsEmailConfirmed = await _UserManager.IsEmailConfirmedAsync(User);
+            IsEmailConfirmed = await _UserManager.IsEmailConfirmedAsync(currentUser);
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            await LoadAsync(User);
+            await LoadAsync(currentUser);
             return Page();
         }
 
         public async Task<IActionResult> OnPostChangeEmailAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(User);
+                await LoadAsync(currentUser);
                 return Page();
             }
 
-            var email = await _UserManager.GetEmailAsync(User);
+            var email = await _UserManager.GetEmailAsync(currentUser);
             if (Input.NewEmail != email)
             {
-                var UserId = await _UserManager.GetUserIdAsync(User);
-                var code = await _UserManager.GenerateChangeEmailTokenAsync(User, Input.NewEmail);
+                var UserId = await _UserManager.GetUserIdAsync(currentUser);
+                var code = await _UserManager.GenerateChangeEmailTokenAsync(currentUser, Input.NewEmail);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
                     "/Account/ConfirmEmailChange",
@@ -138,21 +137,21 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(User);
+                await LoadAsync(currentUser);
                 return Page();
             }
 
-            var UserId = await _UserManager.GetUserIdAsync(User);
-            var email = await _UserManager.GetEmailAsync(User);
-            var code = await _UserManager.GenerateEmailConfirmationTokenAsync(User);
+            var UserId = await _UserManager.GetUserIdAsync(currentUser);
+            var email = await _UserManager.GetEmailAsync(currentUser);
+            var code = await _UserManager.GenerateEmailConfirmationTokenAsync(currentUser);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",

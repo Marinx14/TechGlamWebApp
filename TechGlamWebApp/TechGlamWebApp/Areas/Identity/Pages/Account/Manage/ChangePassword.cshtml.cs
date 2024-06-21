@@ -78,13 +78,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var hasPassword = await _UserManager.HasPasswordAsync(User);
+            var hasPassword = await _UserManager.HasPasswordAsync(currentUser);
             if (!hasPassword)
             {
                 return RedirectToPage("./SetPassword");
@@ -100,13 +100,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            var changePasswordResult = await _UserManager.ChangePasswordAsync(User, Input.OldPassword, Input.NewPassword);
+            var changePasswordResult = await _UserManager.ChangePasswordAsync(currentUser, Input.OldPassword, Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 foreach (var error in changePasswordResult.Errors)
@@ -116,7 +116,7 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            await _signInManager.RefreshSignInAsync(User);
+            await _signInManager.RefreshSignInAsync(currentUser);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 

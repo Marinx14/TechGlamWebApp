@@ -59,10 +59,10 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(User User)
+        private async Task LoadAsync(User currentUser)
         {
-            var UserName = await _UserManager.GetUserNameAsync(User);
-            var phoneNumber = await _UserManager.GetPhoneNumberAsync(User);
+            var UserName = await _UserManager.GetUserNameAsync(currentUser);
+            var phoneNumber = await _UserManager.GetPhoneNumberAsync(currentUser);
 
             Username = UserName;
 
@@ -74,34 +74,34 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
-            await LoadAsync(User);
+            await LoadAsync(currentUser);
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(User);
+                await LoadAsync(currentUser);
                 return Page();
             }
 
-            var phoneNumber = await _UserManager.GetPhoneNumberAsync(User);
+            var phoneNumber = await _UserManager.GetPhoneNumberAsync(currentUser);
             if (Input.PhoneNumber != phoneNumber)
             {
-                var setPhoneResult = await _UserManager.SetPhoneNumberAsync(User, Input.PhoneNumber);
+                var setPhoneResult = await _UserManager.SetPhoneNumberAsync(currentUser, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
@@ -109,7 +109,7 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            await _signInManager.RefreshSignInAsync(User);
+            await _signInManager.RefreshSignInAsync(currentUser);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }

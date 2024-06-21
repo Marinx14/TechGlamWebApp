@@ -1,6 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TechGlamWebApp.Models;
@@ -14,17 +12,17 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
         private readonly ILogger<PersonalDataModel> _logger;
 
         public PersonalDataModel(
-            UserManager<User> UserManager,
+            UserManager<User> userManager,
             ILogger<PersonalDataModel> logger)
         {
-            _UserManager = UserManager;
+            _UserManager = userManager;
             _logger = logger;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _UserManager.GetUserAsync(User);
+            if (currentUser == null)
             {
                 return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
             }

@@ -12,33 +12,29 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {
     public class ResetAuthenticatorModel : PageModel
     {
-        private readonly UserManager<User> _UserManager;
+        private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<ResetAuthenticatorModel> _logger;
 
         public ResetAuthenticatorModel(
-            UserManager<User> UserManager,
+            UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<ResetAuthenticatorModel> logger)
         {
-            _UserManager = UserManager;
+            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
             {
-                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             return Page();
@@ -46,18 +42,18 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var User = await _UserManager.GetUserAsync(User);
-            if (User == null)
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
             {
-                return NotFound($"Unable to load User with ID '{_UserManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            await _UserManager.SetTwoFactorEnabledAsync(User, false);
-            await _UserManager.ResetAuthenticatorKeyAsync(User);
-            var UserId = await _UserManager.GetUserIdAsync(User);
-            _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", User.Id);
+            await _userManager.SetTwoFactorEnabledAsync(currentUser, false);
+            await _userManager.ResetAuthenticatorKeyAsync(currentUser);
+            var userId = await _userManager.GetUserIdAsync(currentUser);
+            _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", currentUser.Id);
 
-            await _signInManager.RefreshSignInAsync(User);
+            await _signInManager.RefreshSignInAsync(currentUser);
             StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
 
             return RedirectToPage("./EnableAuthenticator");
