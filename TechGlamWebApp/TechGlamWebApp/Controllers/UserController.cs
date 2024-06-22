@@ -1,37 +1,58 @@
-﻿/*
-namespace TechGlamWebApp.Controllers;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Services;
-using WebApp.ViewModels;
-using System.Threading.Tasks;
-using System;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using WebApp.Data;
+using WebApp.Models;
+using WebApp.Service;
 
 namespace WebApp.Controllers
 {
-    public class UsersController : Controller
+
+    public class UtenteController : Controller
     {
-        private readonly IUserService _UserService;
+        public readonly UserService _utenteServizi;
 
-        public UsersController(IUserService UserService)
+        public UtenteController(AppDbContext _dbContext)
         {
-            _UserService = UserService;
+            _utenteServizi = new UtenteServizi(_dbContext);
         }
-
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        [Route("/AreaPersonale")]
+        [Authorize]
+        public async Task<IActionResult> AreaPersonale()
         {
-            var Users = await _UserService.GetAllUsersAsync();
-            return View(Users);
+            string idUtente = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //bool ruolo = User.IsInRole("Admin");
+            //var utente = new Utente
+            //{
+            //    Id = idUtente,
+            //    isAdmin = ruolo,
+            //};
+            var areaPersonale = await _utenteServizi.GetUtenteByIdAsync(idUtente);
+            return View(areaPersonale);
         }
-
-        public async Task<IActionResult> Details(Guid id)
+        [HttpPost]
+        [Route("/AreaPersonale")]
+        [Authorize]
+        public async Task<IActionResult> AreaPersonale(string id, string nome, string cognome, string phoneNumber, string email)
         {
-            var User = await _UserService.GetUserByIdAsync(id);
-            if (User == null)
+            var utente = await _utenteServizi.GetUtenteByIdAsync(id);
+            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(cognome) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber)) { RedirectToAction("AreaPersonale"); }
+
+            if (await _utenteServizi.ControlloMail(email))
             {
-                return NotFound();
+                ModelState.AddModelError("Email", "L'email inserita è già associata a un altro utente.");
+                return RedirectToAction("AreaPersonale");
             }
-            return View(User);
+            utente.Nome = nome;
+            utente.Cognome = cognome;
+            utente.Email = email;
+            utente.PhoneNumber = phoneNumber;
+
+            await _utenteServizi.AggiornaUtente(utente);
+            return RedirectToAction("AreaPersonale");
         }
     }
 }
-*/
+

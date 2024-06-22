@@ -11,11 +11,19 @@
     var data = user?.BirthDate.ToShortDateString();
 }
 
+<!-- This view represents the personal area page for the user. -->
+
 <br />
 <br />
 <br />
 <br />
 <div class="col-md-6">
+    <nav class="navbar">
+    <a class="navbar-brand" href="#">
+        <!-- Logo image -->
+        <img src="~/images/Immagine WhatsApp 2024-06-12 ore 11.44.15_e7d253bb.jpg" alt="Tech Glam">
+    </a>
+</nav>
     <div class="row">
         <h1>Welcome @Model.Name</h1>
         <form asp-action="PersonalArea" asp-route-id="@Model.Id" id="profile-form" method="post">

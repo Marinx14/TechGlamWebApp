@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Models;
+using WebApp.Service;
 
 
 namespace TechGlamWebApp.Controllers
@@ -15,7 +16,7 @@ namespace TechGlamWebApp.Controllers
         private readonly CartServices _cartServices;
         private readonly UserManager<User> _UserManager;
 
-        public CartController(ApplicationDbContext dbContext, UserManager<User> UserManager)
+        public CartController(AppDbContext dbContext, UserManager<User> UserManager)
         {
             _cartServices = new CartServices(dbContext);
             _UserManager = UserManager;
