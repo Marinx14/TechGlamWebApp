@@ -1,0 +1,96 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebApp.Models
+@inject UserManager<User> UserManager
+
+@{
+
+    var user = await UserManager.GetUserAsync(User);
+    bool isAdmin = user?.isAdmin ?? false;
+    var userId = user?.Id;
+}
+
+/**
+ * Represents the layout file for the StyleHub web application.
+ * This file defines the structure and styling of the web pages.
+ * It includes the necessary CSS and JavaScript files, as well as the navigation bar and footer.
+ */
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StyleHub</title>
+
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+       <!-- Navbar with Logo -->
+<nav class="navbar">
+    <a class="navbar-brand" href="#">
+        <!-- Logo image -->
+        <img src="~/images/Immagine WhatsApp 2024-06-12 ore 11.44.15_e7d253bb.jpg" alt="Tech Glam">
+    </a>
+</nav>
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">StyleHub</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Utente" asp-action="AreaPersonale">Area Personale</a>
+                        </li>
+
+                        <li class="nav-item">
+                            @if (isAdmin)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Prodotto" asp-action="AggiungiProdotto">Aggiungi Prodotto</a>
+                            }
+                        </li>
+
+                    </ul>
+                    
+                    <form class="d-flex">
+                        <a class="btn btn-outline-dark" type="submit" asp-area="" asp-controller="Carrello" asp-action="IndexCarrello">
+                            <i class="bi-cart-fill me-1"></i>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
+                        </a>
+                    </form>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer bg-dark text-muted">
+        <div class="container">
+            <p class="m-0 text-center text-white text-decoration-none">
+                <a class="text-white" asp-area="" asp-controller="Home" asp-action="Privacy">
+                    Copyright &copy; TechGlam
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
