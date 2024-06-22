@@ -1,6 +1,6 @@
 using WebApp.Data;
 
-namespace WebApp.Service;
+namespace WebApp.CartService;
 
 public class CartServices
 {
@@ -25,6 +25,11 @@ public class CartServices
     }
 
     public async Task EmptyCart(string? userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task AddProductToCart(object userId, object product, int quantity)
     {
         throw new NotImplementedException();
     }

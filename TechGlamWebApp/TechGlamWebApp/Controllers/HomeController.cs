@@ -6,8 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using TechGlamWebApp.Models;
 using WebApp.Data;
-using WebApp.Service;
- 
+using WebApp.Models;
+using WebApp.CartService;
+using WebApp.ProductServices;
 
 namespace TechGlamWebApp.Controllers
 {
@@ -15,25 +16,27 @@ namespace TechGlamWebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _user;
-        private readonly ProductServices _productService;
+        private readonly ProductServices _productServices; 
         private readonly CartServices _cartServices;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<User> user, AppDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> user, AppDbContext dbContext, CartServices cartServices, UserManager<IdentityUser> userManager) 
         {
             _user = user;
             _logger = logger;
-            _productService = new ProductServices(dbContext);
+            _productServices = new ProductServices(dbContext);
+            _cartServices = cartServices;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var totalProducts = await _productService.GetProductsAsync();
+            var totalProducts = await _productServices.GetProductsAsync(); 
             return View(totalProducts);
-
+            
         }
-        
+
         [AllowAnonymous]
         public IActionResult Privacy()
         {
@@ -41,10 +44,10 @@ namespace TechGlamWebApp.Controllers
         }
 
         [HttpGet]
-        [Route("/Carrello")]
-               public async Task<IActionResult> Cart()
+        [Route("/Cart")]
+        public async Task<IActionResult> Cart()
         {
-            return View("~/Views/Carrello/IndexCart.cshtml");
+            return await Task.Run(() => View("~/Views/Cart/IndexCart.cshtml"));
         }
 
         [AllowAnonymous]

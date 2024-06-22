@@ -14,7 +14,8 @@ namespace WebApp.Models
     /// </summary>
     public abstract class Product
     {
-       
+        private WebAppEnum.SizeRingsBracelets size;
+
 
         /// <summary>
         /// Gets or sets the unique identifier for the product.
@@ -59,10 +60,10 @@ namespace WebApp.Models
         /// Gets or sets the size of the product.
         /// </summary>
         
-        public WebAppEnum.SizeRingsBracelets Size { get; set; }
+        public WebAppEnum.SizeRingsBracelets SizeRingsBracelets { get; set; }
         
         
-        public WebAppEnum.SizeWatches? SizeWatches;
+        public WebAppEnum.SizeWatches SizeWatches { get; set; }
         public string MetalType { get; set; }
 
 
@@ -72,6 +73,11 @@ namespace WebApp.Models
         public Product()
         {
             ProductID = Guid.NewGuid();
+            Name = string.Empty;
+            Image = string.Empty;
+            Description = string.Empty;
+            Color = string.Empty;
+            MetalType = string.Empty;
         }
 
         /// <summary>
@@ -86,7 +92,7 @@ namespace WebApp.Models
         /// <param name="color">The color of the product.</param>
 
         public Product(string name, string image, string description, decimal price, WebAppEnum.Category category,
-                       string color, WebAppEnum.SizeRingsBracelets size)
+                       string color, WebAppEnum.SizeRingsBracelets sizerb, WebAppEnum.SizeWatches sizew, string metalType)
             : this()
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "The name cannot be null.");
@@ -95,7 +101,21 @@ namespace WebApp.Models
             Price = price;
             Category = category;
             Color = color ?? throw new ArgumentNullException(nameof(color), "The color cannot be null.");
-            Size = size;
+            SizeRingsBracelets = sizerb;
+            SizeWatches = sizew;
+            MetalType = metalType;
+        }
+
+        protected Product(string name, string image, string description, decimal price, WebAppEnum.Category category, string color, WebAppEnum.SizeRingsBracelets size, string metalType)
+        {
+            Name = name;
+            Image = image;
+            Description = description;
+            Price = price;
+            Category = category;
+            Color = color;
+            this.size = size;
+            MetalType = metalType ?? throw new ArgumentNullException(nameof(metalType), "The metal type cannot be null.");
         }
 
         /// <summary>
@@ -106,13 +126,12 @@ namespace WebApp.Models
         {
             return new ClonedProduct
             {
-                Name = this.Name,
-                Image = this.Image,
-                Description = this.Description,
-                Price = this.Price,
-                Category = this.Category,
-                Color = this.Color,
-                Size = this.Size,
+                Name = Name,
+                Image = Image,
+                Description = Description,
+                Price = Price,
+                Category = Category,
+                Color = Color,
             };
         }
 

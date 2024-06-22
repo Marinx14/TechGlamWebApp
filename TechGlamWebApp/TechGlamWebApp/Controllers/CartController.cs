@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Data;
-using WebApp.Service;
+using WebApp.CartService;
 
 
 namespace TechGlamWebApp.Controllers

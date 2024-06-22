@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Models;
 
-namespace WebApp.Service
+namespace WebApp.UServices
 {
-    public class UserService
+    public class UserServices
     {
         private readonly AppDbContext _dbContext;
 
-        public UserService(AppDbContext dbContext)
+        public UserServices(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -19,7 +19,7 @@ namespace WebApp.Service
         /// </summary>
         /// <param name="id">The user's ID.</param>
         /// <returns>The user if found, otherwise null.</returns>
-        public async Task<User> GetUtenteByIdAsync(string id)
+        public async Task<User?> GetUtenteByIdAsync(string id)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }

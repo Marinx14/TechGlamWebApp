@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using WebApp.Data;
 using WebApp.Models;
-using WebApp.Service;
+using WebApp.UServices;
 
 namespace WebApp.Controllers
 {
 
     public class UtenteController : Controller
     {
-        public readonly UserService _userService;
+        public readonly UserServices _userService;
 
         public UtenteController(AppDbContext _dbContext)
         {
-            _userService = new UserService(_dbContext);
+            _userService = new UserServices(_dbContext);
         }
         [HttpGet]
         [Route("/PersonalArea")]
