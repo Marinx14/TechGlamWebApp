@@ -1,11 +1,22 @@
-﻿<br />
+﻿<!-- Spacer for visual separation -->
 <br />
 <br />
 <br />
+<br />
+
+<!-- Error message row -->
 <div class="row">
+    <!-- Error message column centered on the page -->
     <div class="col-md-6 offset-3 alert alert-danger text-center">
-        <h2>Ordine non effettuato! </h2>
-        <p>Il carrello è vuoto.</p>
+        <h2>Order not placed!</h2>
+        <p>The cart is empty.</p>
     </div>
-    <!-- redirect alla homepage-->
 </div>
+
+<!-- Script to redirect to the homepage after a delay -->
+<script>
+    // Function to redirect to the homepage after 5 seconds
+    setTimeout(function(){
+        window.location.href = '@Url.Action("Index", "Home")';
+    }, 5000); // 5000 milliseconds = 5 seconds
+</script>

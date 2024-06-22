@@ -20,3 +20,24 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar {
+  background-color: #f8f9fa;
+  padding: 1rem;
+}
+.navbar img {
+  height: 50px;
+}
+.gradient-custom {
+  background: linear-gradient(45deg, #f3ec78, #af4261);
+}
+.card-header, .card-body {
+  background-color: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.btn-outline-dark {
+  margin: 5px;
+}
