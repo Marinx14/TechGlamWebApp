@@ -11,48 +11,48 @@ namespace WebApp.Controllers
 
     public class UtenteController : Controller
     {
-        public readonly UserService _utenteServizi;
+        public readonly UserService _userService;
 
         public UtenteController(AppDbContext _dbContext)
         {
-            _utenteServizi = new UtenteServizi(_dbContext);
+            _userService = new UserService(_dbContext);
         }
         [HttpGet]
-        [Route("/AreaPersonale")]
+        [Route("/PersonalArea")]
         [Authorize]
         public async Task<IActionResult> PersonalArea()
         {
             string idUtente = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //bool ruolo = User.IsInRole("Admin");
-            //var utente = new Utente
+            //var user = new User
             //{
-            //    Id = idUtente,
+            //    Id = idUser,
             //    isAdmin = ruolo,
             //};
-            var personalArea = await _utenteServizi.GetUtenteByIdAsync(idUtente);
+            var personalArea = await _userService.GetUtenteByIdAsync(idUser);
             return View(personalArea);
         }
 
         [HttpPost]
-        [Route("/AreaPersonale")]
+        [Route("/PersonalArea")]
         [Authorize]
-        public async Task<IActionResult> AreaPersonale(string id, string nome, string cognome, string phoneNumber, string email)
+        public async Task<IActionResult> AreaPersonale(string id, string name, string surname, string phoneNumber, string email)
         {
-            var utente = await _utenteServizi.GetUtenteByIdAsync(id);
-            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(cognome) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber)) { RedirectToAction("AreaPersonale"); }
+            var user = await _userService.GetUtenteByIdAsync(id);
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber)) { RedirectToAction("PersonalArea"); }
 
-            if (await _utenteServizi.ControlloMail(email))
+            if (await _userService.checkEmail(email))
             {
-                ModelState.AddModelError("Email", "L'email inserita è già associata a un altro utente.");
-                return RedirectToAction("AreaPersonale");
+                ModelState.AddModelError("Email", "The entered email is already associated with another user.");
+                return RedirectToAction("PersonalArea");
             }
-            utente.Nome = nome;
-            utente.Cognome = cognome;
-            utente.Email = email;
-            utente.PhoneNumber = phoneNumber;
+            user.Name = name;
+            user.Surname = surname;
+            user.Email = email;
+            user.PhoneNumber = phoneNumber;
 
-            await _utenteServizi.AggiornaUtente(utente);
-            return RedirectToAction("AreaPersonale");
+            await _userService.UpdateUser(user);
+            return RedirectToAction("PersonalArea");
         }
     }
 }

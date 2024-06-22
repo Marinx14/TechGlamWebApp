@@ -9,9 +9,6 @@ namespace WebApp.Models
     /// </summary>
     public class User : IdentityUser
     {
-        public bool isAdmin = VALUE;
-
-
         /// <summary>
         /// Gets or sets the name of the user.
         /// </summary>
@@ -47,15 +44,7 @@ namespace WebApp.Models
         [Required(ErrorMessage = "You must insert your Birth Date!")]
         public DateTime BirthDate { get;  set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the user is an admin.
-        /// </summary>
-       
-
-        public bool IsAdmin { get; set; }
-
-        
-
+        public bool isAdmin { get; set; }
 
         //public ICollection<Ordine> OrdiniUtente { get; set; }
 
