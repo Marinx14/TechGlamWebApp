@@ -1,0 +1,158 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebApp.Models
+@model IEnumerable<WebApp.Models.Product>;
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "Home Page";
+    var user = await UserManager.GetUserAsync(User);
+    bool isAdmin = user?.isAdmin ?? false;
+}
+
+/**
+ * 
+ * The home page includes a header section, a search bar section, and a product section.
+ * The header section displays the TechGlam logo and a tagline.
+ * The search bar section allows users to search for products by name, category, and size.
+ * The product section displays a grid of products with their details, including name, category, size, price, and quantity.
+ * Users can add products to their cart and perform administrative actions if they are an admin.
+ * The page also includes CSS and JavaScript files for styling and functionality.
+ */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Homepage - E-Commerce </title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <style>
+
+        .trash {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-repeat: no-repeat;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352"/><path d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>');
+        }
+    </style>
+    <br />
+    <br />
+    <br />
+    <br />
+    <!-- Header-->
+    <header class="bg-dark py-5" id="header">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">TechGlam</h1>
+                <p class="lead fw-normal text-white mb-0">Tra Glamour e Tecnologia</p>
+            </div>
+        </div>
+    </header>
+    <p> </p>
+    <!--Search bar-->
+    <div class="d-flex justify-content-center ">
+        <form method="get" asp-controller="Product" asp-action="SearchProductsBar">
+            <div class="input-group">
+                <input class="form-control" type="search" placeholder="Search product" aria-label="Search" name="searchName">
+                <input type="hidden" name="search" value="@ViewBag.Search">
+                <button class="btn btn-outline-dark" type="submit">Search</button>
+            </div>
+            <br>
+        </form>
+        <form method="get" asp-controller="Product" asp-action="FilterProduct">
+            <div class="input-group">
+                <select class="form-select" name="category"></select></select>
+                    <option value="">Select category</option>
+                    <option value="Rings">Rings</option>
+                    <option value="Bracelets">Bracelets</option>
+                    <option value="Watches">Watches</option>
+                </select>
+                <select class="form-select" name="SizeRingsBracelets"></select>
+                    <option value="">Select size</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
+                 <select class="form-select" name="SizeWatches"></select>
+                    <option value="">Select size</option>
+                    <option value="40">40 mm</option>
+                    <option value="44">44 mm</option>
+                    <option value="45">45 mm</option>
+                </select>
+                <button class="btn btn-outline-dark" type="submit">Filter</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    </div>
+    <!-- Section-->
+    <section class="">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                @foreach (var product in Model)
+                {
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <a class="text-decoration-none text-black" asp-controller="Product" asp-action="ProductDetails" asp-route-id="@product.ProductID">
+                            <!-- Product image-->
+                                <img class="card-img-top" src="~/images/@product.Image" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">@product.Name</h5>
+                                    <!-- Product category-->
+                                    <p>Category: @product.Category</p>
+                                    <!-- Product size -->
+                                    <p>Size: @product.Size</p>
+                                    <span>@product.Price.ToString("C")</span>
+                                    <p>Remaining products: @product.Quantity</p>
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <form method="post" asp-controller="Cart" asp-action="AddProductToCart" asp-route-id="@product.ProductID">
+                                        <button class="btn btn-outline-dark mt-auto" type="submit"> Add to cart </button>
+                                    </form>
+                                </div>
+                                <br />
+                                @if (isAdmin)
+                                {
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <a class="btn btn-outline-dark mt-auto" asp-controller="Product" asp-action="UpdateProduct"
+                                               asp-route-id="@product.ProductID">Update</a>
+                                        </div>
+                                        <div class=" col-6 text-center">
+                                            <a class="trash mt-2" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@product.ProductID"></a>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    </div>
+</body>
+</html>
