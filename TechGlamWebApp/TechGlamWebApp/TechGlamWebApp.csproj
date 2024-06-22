@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\App.DbContext\App.DbContext.csproj" />
     <ProjectReference Include="..\WebApp.Models\WebApp.Models.csproj" />
+    <ProjectReference Include="..\WebApp.Service\WebApp.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

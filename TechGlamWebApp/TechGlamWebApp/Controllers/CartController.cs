@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
-using WebApp.Models;
 using WebApp.Service;
 
 
@@ -30,7 +27,7 @@ namespace TechGlamWebApp.Controllers
             var User = await _UserManager.GetUserAsync(User);
             var UserId = User?.Id;
             var cart = await _cartServices.GetCartAsync(UserId);
-            cart.ClonedProducts = await _cartServices.GetClonedProductsAsync(cart);
+            /*cart.ClonedProducts = await _cartServices.GetClonedProductsAsync(cart);*/
             return View(cart);
         }
 

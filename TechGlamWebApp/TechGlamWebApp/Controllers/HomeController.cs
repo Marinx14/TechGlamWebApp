@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using TechGlamWebApp.Models;
 using WebApp.Data;
-using WebApp.Models;
-using WebApp.Services; 
+using WebApp.Service;
+ 
 
 namespace TechGlamWebApp.Controllers
 {

@@ -5,7 +5,7 @@
 @{
 
     var user = await UserManager.GetUserAsync(User);
-    bool isAdmin = user?.isAdmin ?? false;
+    /*bool isAdmin = user?.isAdmin ?? false;*/
     var userId = user?.Id;
 }
 
@@ -14,8 +14,7 @@
  * This file defines the structure and styling of the web pages.
  * It includes the necessary CSS and JavaScript files, as well as the navigation bar and footer.
  */
-
-<!DOCTYPE html>
+ 
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -54,7 +53,7 @@
                         </li>
 
                         <li class="nav-item">
-                            @if (isAdmin)
+                            @*@if (isAdmin)*@
                             {
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Prodotto" asp-action="AggiungiProdotto">Aggiungi Prodotto</a>
                             }
