@@ -1,30 +1,33 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp.Models
 {
+    /// <summary>
+    /// Represents a user in the application.
+    /// </summary>
     public class User : IdentityUser
     {
         /// <summary>
-        /// Gets the first name of the User.
+        /// Gets or sets the name of the user.
         /// </summary>
         [PersonalData]
         [Column(TypeName = "nvarchar(50)")]
         [Required(ErrorMessage = "You must insert your Name!")]
         [StringLength(50, ErrorMessage = "The name can not be longer than 50 characters!")]
-        public string Name { get;  set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets the last name of the User.
+        /// Gets or sets the surname of the user.
         /// </summary>
         [PersonalData]
         [Column(TypeName = "nvarchar(60)")]
         [Required(ErrorMessage = "You must insert your Surname!")]
         [StringLength(60, ErrorMessage = "The surname can not be longer than 60 characters!")]
-        public string Surname { get;  set; }
+        public string Surname { get; set; }
 
-        /// <summary>
+         /// <summary>
         /// Gets the phone number of the User.
         /// </summary>
         [PersonalData]
@@ -32,8 +35,9 @@ namespace WebApp.Models
         [Required(ErrorMessage = "You must insert your phone number!")]
         [StringLength(60, ErrorMessage = "The pohone number can not be longer than 13 characters!")]
         public string PhoneNumber { get; set; }
+
         /// <summary>
-        /// Gets the birth date of the User.
+        /// Gets or sets the birth date of the user.
         /// </summary>
         [PersonalData]
         [Column(TypeName = "date")]
@@ -41,65 +45,23 @@ namespace WebApp.Models
         public DateTime BirthDate { get;  set; }
 
         /// <summary>
-        /// Gets a value indicating whether the User has administrative privileges.
+        /// Gets or sets a value indicating whether the user is an admin.
         /// </summary>
-        public bool IsAdmin { get;  set; }
+        public bool isAdmin { get; set; }
 
-        // Uncomment the following line if you need to establish a relationship with the Ordine entity.
-        // public ICollection<Ordine> OrdiniUser { get; set; }
+        //public ICollection<Ordine> OrdiniUtente { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
         /// </summary>
-        public User() { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="User"/> class with specified details.
-        /// </summary>
-        /// <param name="name">The first name of the User.</param>
-        /// <param name="surname">The last name of the User.</param>
-        /// <param name="birthDate">The birth date of the User.</param>
-        /// <param name="isAdmin">Indicates whether the User has administrative privileges. Default is false.</param>
-        public User(string name, string surname,string phoneNumber, DateTime birthDate, bool isAdmin = false)
+        
+        public User(string name, string surname,string phoneNumber, DateTime birthDate, bool isadmin = false)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "Name cannot be null.");
             Surname = surname ?? throw new ArgumentNullException(nameof(surname), "Surname cannot be null.");
             PhoneNumber = phoneNumber;
             BirthDate = birthDate;
-            IsAdmin = isAdmin;
-        }
-
-        /// <summary>
-        /// Sets the administrative status of the User.
-        /// </summary>
-        /// <param name="isAdmin">True to grant administrative privileges, false otherwise.</param>
-        public void SetAdminStatus(bool isAdmin)
-        {
-            IsAdmin = isAdmin;
-        }
-
-        /// <summary>
-        /// Updates the details of the User.
-        /// </summary>
-        /// <param name="nome">The new first name of the User.</param>
-        /// <param name="cognome">The new last name of the User.</param>
-        /// <param name="dataNascita">The new birth date of the User.</param>
-        public void UpdateDetails(string name, string surname,string phoneNumber, DateTime birthDate)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Name cannot be just spaces or null", nameof(name));
-            }
-
-            if (string.IsNullOrWhiteSpace(surname))
-            {
-                throw new ArgumentException("Surname cannot be just spaces or null", nameof(surname));
-            }
-
-            Name = name;
-            Surname = surname;
-            PhoneNumber = phoneNumber;
-            BirthDate = birthDate;
+            isAdmin = isadmin;
         }
     }
 }
