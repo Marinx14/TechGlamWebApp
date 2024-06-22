@@ -39,10 +39,19 @@ namespace WebApp.Service
         /// </summary>
         /// <param name="utente">The user to update.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task AggiornaUtente(User utente)
+        
+        public async Task UpdateUser(User user)
         {
-            _dbContext.Users.Update(utente);
+            _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();
         }
+        
+        
+        public async Task<bool> checkEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+       
     }
 }

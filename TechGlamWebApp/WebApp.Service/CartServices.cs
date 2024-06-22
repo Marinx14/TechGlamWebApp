@@ -18,4 +18,14 @@ public class CartServices
     {
         throw new NotImplementedException();
     }
+
+    public async Task RemoveProductFromCart(Guid id, string? userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task EmptyCart(string? userId)
+    {
+        throw new NotImplementedException();
+    }
 }

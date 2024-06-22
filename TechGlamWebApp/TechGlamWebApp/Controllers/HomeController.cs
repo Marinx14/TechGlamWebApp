@@ -50,7 +50,7 @@ namespace TechGlamWebApp.Controllers
         [AllowAnonymous]
         public IActionResult Product()
         {
-            return View("~/Views/Prodotto/AddProduct.cshtml");
+            return View("~/Views/Product/AddProduct.cshtml");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

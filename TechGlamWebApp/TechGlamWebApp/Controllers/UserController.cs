@@ -20,7 +20,7 @@ namespace WebApp.Controllers
         [HttpGet]
         [Route("/PersonalArea")]
         [Authorize]
-        public async Task<IActionResult> PersonalArea()
+        public async Task<IActionResult> PersonalArea(string idUser)
         {
             string idUtente = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //bool ruolo = User.IsInRole("Admin");
