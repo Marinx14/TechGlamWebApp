@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<IActionResult> PersonalArea(string idUser)
         {
-            string idUtente = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? idUtente = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //bool ruolo = User.IsInRole("Admin");
             //var user = new User
             //{
@@ -41,17 +41,23 @@ namespace WebApp.Controllers
             var user = await _userService.GetUtenteByIdAsync(id);
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber)) { RedirectToAction("PersonalArea"); }
 
-            if (await _userService.checkEmail(email))
+            if (await _userService.CheckEmail(email))
             {
                 ModelState.AddModelError("Email", "The entered email is already associated with another user.");
                 return RedirectToAction("PersonalArea");
             }
-            user.Name = name;
-            user.Surname = surname;
-            user.Email = email;
-            user.PhoneNumber = phoneNumber;
+            if (user != null)
+            {
+                user.Name = name;
+                user.Surname = surname;
+                user.Email = email;
+                user.PhoneNumber = phoneNumber;
+            }
 
-            await _userService.UpdateUser(user);
+            if (user != null)
+            {
+                await _userService.UpdateUser(user);
+            }
             return RedirectToAction("PersonalArea");
         }
     }

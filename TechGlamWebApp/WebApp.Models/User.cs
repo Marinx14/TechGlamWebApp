@@ -34,7 +34,7 @@ namespace WebApp.Models
         [Column(TypeName = "nvarchar(60)")]
         [Required(ErrorMessage = "You must insert your phone number!")]
         [StringLength(60, ErrorMessage = "The pohone number can not be longer than 13 characters!")]
-        public string PhoneNumber { get; set; }
+        public new string PhoneNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the birth date of the user.

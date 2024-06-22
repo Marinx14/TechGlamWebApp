@@ -47,9 +47,11 @@ namespace WebApp.UServices
         }
         
         
-        public async Task<bool> checkEmail(string email)
+        public async Task<bool> CheckEmail(string email)
         {
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return true;
+            return false;
         }
 
        
