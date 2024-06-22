@@ -9,6 +9,9 @@ namespace WebApp.Models
     /// </summary>
     public class User : IdentityUser
     {
+        public bool isAdmin = VALUE;
+
+
         /// <summary>
         /// Gets or sets the name of the user.
         /// </summary>
@@ -47,7 +50,12 @@ namespace WebApp.Models
         /// <summary>
         /// Gets or sets a value indicating whether the user is an admin.
         /// </summary>
-        public bool isAdmin { get; set; }
+       
+
+        public bool IsAdmin { get; set; }
+
+        
+
 
         //public ICollection<Ordine> OrdiniUtente { get; set; }
 

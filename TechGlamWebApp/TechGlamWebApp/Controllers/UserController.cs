@@ -20,7 +20,7 @@ namespace WebApp.Controllers
         [HttpGet]
         [Route("/AreaPersonale")]
         [Authorize]
-        public async Task<IActionResult> AreaPersonale()
+        public async Task<IActionResult> PersonalArea()
         {
             string idUtente = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //bool ruolo = User.IsInRole("Admin");
@@ -29,9 +29,10 @@ namespace WebApp.Controllers
             //    Id = idUtente,
             //    isAdmin = ruolo,
             //};
-            var areaPersonale = await _utenteServizi.GetUtenteByIdAsync(idUtente);
-            return View(areaPersonale);
+            var personalArea = await _utenteServizi.GetUtenteByIdAsync(idUtente);
+            return View(personalArea);
         }
+
         [HttpPost]
         [Route("/AreaPersonale")]
         [Authorize]

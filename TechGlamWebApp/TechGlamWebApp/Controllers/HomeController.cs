@@ -7,7 +7,7 @@ using System.Diagnostics;
 using TechGlamWebApp.Models;
 using WebApp.Data;
 using WebApp.Models;
-using TechGlamWebApp.Services; 
+using WebApp.Services; 
 
 namespace TechGlamWebApp.Controllers
 {
@@ -33,7 +33,7 @@ namespace TechGlamWebApp.Controllers
             return View(totalProducts);
 
         }
-
+        
         [AllowAnonymous]
         public IActionResult Privacy()
         {
