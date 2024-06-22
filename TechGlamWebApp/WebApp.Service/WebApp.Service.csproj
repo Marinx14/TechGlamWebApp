@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Service\CartServices.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\App.DbContext\App.DbContext.csproj" />
     </ItemGroup>
 
