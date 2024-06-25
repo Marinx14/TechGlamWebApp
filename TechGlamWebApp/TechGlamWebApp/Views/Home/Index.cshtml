@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Home Page";
     var user = await UserManager.GetUserAsync(User);
-    bool isAdmin = user?.isAdmin ?? false;
+    bool isAdmin = user?.IsAdmin ?? false;
 }
 
 /**
@@ -17,7 +17,7 @@
  * Users can add products to their cart and perform administrative actions if they are an admin.
  * The page also includes CSS and JavaScript files for styling and functionality.
  */
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />

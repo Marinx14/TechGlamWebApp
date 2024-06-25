@@ -63,7 +63,7 @@ namespace WebApp.Models
         public WebAppEnum.SizeRingsBracelets SizeRingsBracelets { get; set; }
         
         
-        public WebAppEnum.SizeWatches SizeWatches { get; set; }
+        public WebAppEnum.SizeRingsBracelets SizeWatches { get; set; }
         public string MetalType { get; set; }
 
 
@@ -92,7 +92,7 @@ namespace WebApp.Models
         /// <param name="color">The color of the product.</param>
 
         public Product(string name, string image, string description, decimal price, WebAppEnum.Category category,
-                       string color, WebAppEnum.SizeRingsBracelets sizerb, WebAppEnum.SizeWatches sizew, string metalType)
+                       string color, WebAppEnum.SizeRingsBracelets sizerb, WebAppEnum.SizeRingsBracelets sizew, string metalType)
             : this()
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "The name cannot be null.");
@@ -106,7 +106,7 @@ namespace WebApp.Models
             MetalType = metalType;
         }
 
-        protected Product(string name, string image, string description, decimal price, WebAppEnum.Category category, string color, WebAppEnum.SizeRingsBracelets size, string metalType)
+        /*protected Product(string name, string image, string description, decimal price, WebAppEnum.Category category, string color, WebAppEnum.SizeRingsBracelets size, string metalType)
         {
             Name = name;
             Image = image;
@@ -116,7 +116,18 @@ namespace WebApp.Models
             Color = color;
             this.size = size;
             MetalType = metalType ?? throw new ArgumentNullException(nameof(metalType), "The metal type cannot be null.");
-        }
+        }*/
+
+        protected Product(string name, string image, string description, decimal price, WebAppEnum.Category category, string color, WebAppEnum.SizeRingsBracelets sizerb)
+        {
+            Name = name;
+            Image = image;
+            Description = description;
+            Price = price;
+            Category = category;
+            Color = color;
+            this.size = size;
+        }   
 
         /// <summary>
         /// Creates a cloned instance of the product.

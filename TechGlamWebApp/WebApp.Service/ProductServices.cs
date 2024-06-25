@@ -38,7 +38,7 @@ namespace WebApp.ProductServices
             }
             if (sizeWatches != null)
             {
-                filteredProducts = filteredProducts.Where(p => p.SizeWatches == sizeWatches).ToList();
+                filteredProducts = filteredProducts.Where(p => p.SizeWatches == (WebAppEnum.SizeRingsBracelets)sizeWatches).ToList();
             }
             return filteredProducts;
         }

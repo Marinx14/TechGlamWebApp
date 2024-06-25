@@ -33,4 +33,9 @@ public class CartServices
     {
         throw new NotImplementedException();
     }
+
+    public async Task<bool> SubmitProducts(string? userId)
+    {
+        throw new NotImplementedException();
+    }
 }

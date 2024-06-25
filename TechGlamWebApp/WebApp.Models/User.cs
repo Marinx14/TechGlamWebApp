@@ -9,6 +9,7 @@ namespace WebApp.Models
     /// </summary>
     public class User : IdentityUser
     {
+
         /// <summary>
         /// Gets or sets the name of the user.
         /// </summary>
@@ -44,7 +45,8 @@ namespace WebApp.Models
         [Required(ErrorMessage = "You must insert your Birth Date!")]
         public DateTime BirthDate { get;  set; }
 
-        public bool isAdmin { get; set; }
+        /*public bool isAdmin { get; set; }*/
+        public bool IsAdmin { get; set; }
 
         //public ICollection<Ordine> OrdiniUtente { get; set; }
 
@@ -58,7 +60,7 @@ namespace WebApp.Models
             Surname = surname ?? throw new ArgumentNullException(nameof(surname), "Surname cannot be null.");
             PhoneNumber = phoneNumber;
             BirthDate = birthDate;
-            isAdmin = isadmin;
+            var isAdmin = isadmin;
         }
     }
 }

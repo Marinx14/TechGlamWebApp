@@ -24,7 +24,8 @@ namespace TechGlamWebApp.Controllers
         [Authorize]
         public async Task<IActionResult> CartIndex()
         {
-            var User = await _UserManager.GetUserAsync(User);
+            User? User = null;
+            User = await _UserManager.GetUserAsync(User);
             var UserId = User?.Id;
             var cart = await _cartServices.GetCartAsync(UserId);
             /*cart.ClonedProducts = await _cartServices.GetClonedProductsAsync(cart);*/
@@ -54,7 +55,7 @@ namespace TechGlamWebApp.Controllers
         {
             var User = await _UserManager.GetUserAsync(User);
             var UserId = User?.Id;
-            var product = await _cartServices.GetProductByIdAsync(id);
+            object product = await _cartServices.GetProductByIdAsync(id);
             if (product != null)
             {
                 await _cartServices.AddProductToCart(UserId, product, quantity);

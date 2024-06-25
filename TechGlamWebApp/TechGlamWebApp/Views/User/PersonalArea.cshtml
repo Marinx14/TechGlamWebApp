@@ -6,7 +6,7 @@
 @{
     ViewData["Title"] = "Personal Area";
     var user = await UserManager.GetUserAsync(User);
-    bool isAdmin = user?.isAdmin ?? false;
+    bool isAdmin = user?.IsAdmin ?? false;
     var userId = user?.Id;
     var data = user?.BirthDate.ToShortDateString();
 }

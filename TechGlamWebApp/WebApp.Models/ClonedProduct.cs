@@ -83,7 +83,7 @@ public class ClonedProduct
         Description = product.Description;
         Price = product.Price;
         Category = product.Category;
-        Size = product.Size;
+        Size = product.SizeWatches;
         Color = product.Color;
     }
 }
