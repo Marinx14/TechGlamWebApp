@@ -76,17 +76,12 @@
                     <option value="Rings">Rings</option>
                     <option value="Bracelets">Bracelets</option>
                     <option value="Watches">Watches</option>
-                <select class="form-select" name="SizeRingsBracelets"></select>
+                <select class="form-select" name="Size"></select>
                     <option value="">Select size</option>
                     <option value="S">S</option>
                     <option value="M">M</option>
                     <option value="L">L</option>
                     <option value="XL">XL</option>
-                <select class="form-select" name="SizeWatches"></select>
-                    <option value="">Select size</option>
-                    <option value="40">40 mm</option>
-                    <option value="44">44 mm</option>
-                    <option value="45">45 mm</option>
                 <button class="btn btn-outline-dark" type="submit">Filter</button>
             </div>
         </form>
@@ -109,11 +104,7 @@
                                     <h5 class="fw-bolder">@product.Name</h5>
                                     <!-- Product category-->
                                     <p>Category: @product.Category</p>
-                                    <!-- Product SizeRingsBracelets-->
-                                    <p>Size: @product.SizeRingsBracelets</p>
-                                    <!-- Product SizeWatches-->
-                                    <p>Size: @product.SizeWatches</p>
-                                    <!-- Product price-->
+                                    <p>Size: @product.Size</p>
                                     <span>Price: </span>
                                     <span>@product.Price.ToString("C")</span>
                                     <p>Remaining products: @product.Quantity</p>

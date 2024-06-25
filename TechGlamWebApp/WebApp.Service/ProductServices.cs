@@ -25,20 +25,16 @@ namespace WebApp.ProductServices
             return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductID == id);
         }
 
-        public async Task<List<Product>> FilterProducts(WebAppEnum.Category? category, WebAppEnum.SizeRingsBracelets? sizeRingsBracelets, WebAppEnum.SizeWatches? sizeWatches)
+        public async Task<List<Product>> FilterProducts(WebAppEnum.Category? category, WebAppEnum.Size? size)
         {
             var filteredProducts = await _dbContext.Products.ToListAsync();
             if (category != null)
             {
                 filteredProducts = filteredProducts.Where(p => p.Category == category).ToList();
             }
-            if (sizeRingsBracelets != null)
+            if (size != null)
             {
-                filteredProducts = filteredProducts.Where(p => p.SizeRingsBracelets == sizeRingsBracelets).ToList();
-            }
-            if (sizeWatches != null)
-            {
-                filteredProducts = filteredProducts.Where(p => p.SizeWatches == (WebAppEnum.SizeRingsBracelets)sizeWatches).ToList();
+                filteredProducts = filteredProducts.Where(p => p.Size == size).ToList();
             }
             return filteredProducts;
         }
@@ -77,8 +73,7 @@ namespace WebApp.ProductServices
                 p.Description == product.Description &&
                 p.Price == product.Price &&
                 p.Category == product.Category &&
-                p.SizeRingsBracelets == product.SizeRingsBracelets &&
-                p.SizeWatches == product.SizeWatches &&
+                p.Size == product.Size &&
                 p.Color == product.Color &&
                 p.MetalType == product.MetalType);
 
@@ -105,8 +100,7 @@ namespace WebApp.ProductServices
                 existingProduct.Price = updatedProduct.Price;
                 existingProduct.Quantity = updatedProduct.Quantity;
                 existingProduct.Category = updatedProduct.Category;
-                existingProduct.SizeRingsBracelets = updatedProduct.SizeRingsBracelets;
-                existingProduct.SizeWatches = updatedProduct.SizeWatches;
+                existingProduct.Size = updatedProduct.Size;
                 existingProduct.Color = updatedProduct.Color;
                 existingProduct.MetalType = updatedProduct.MetalType;
 
@@ -118,11 +112,11 @@ namespace WebApp.ProductServices
             }
         }
 
-        public bool CheckFields(string name, string description, string price, string quantity, string color, string sizeRingsBracelets, string sizeWatches, string category)
+        public bool CheckFields(string name, string description, string price, string quantity, string color, string size, string category)
         {
             // Check if the fields are empty or null
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(price) || string.IsNullOrEmpty(price.ToString()) || string.IsNullOrEmpty(quantity) || string.IsNullOrEmpty(color)
-                || string.IsNullOrEmpty(this.VerifySizeRingsBracelets(sizeRingsBracelets)) || string.IsNullOrEmpty(this.VerifySizeWatches(sizeWatches)) || string.IsNullOrEmpty(this.VerifyCategory(category)))
+                || string.IsNullOrEmpty(this.VerifySize(size)) || string.IsNullOrEmpty(this.VerifyCategory(category)))
             {
                 return false;
             }
@@ -130,33 +124,18 @@ namespace WebApp.ProductServices
             return true;
         }
 
-        public string? VerifySizeRingsBracelets(string size)
+        public string? VerifySize(string size)
         {
             switch (size)
             {
-                case nameof(WebAppEnum.SizeRingsBracelets.S):
-                case nameof(WebAppEnum.SizeRingsBracelets.M):
-                case nameof(WebAppEnum.SizeRingsBracelets.L):
-                case nameof(WebAppEnum.SizeRingsBracelets.XL):
-                    // The string matches a value from the SizeRingsBracelets enum
+                case nameof(WebAppEnum.Size.S):
+                case nameof(WebAppEnum.Size.M):
+                case nameof(WebAppEnum.Size.L):
+                case nameof(WebAppEnum.Size.XL):
+                    // The string matches a value from the Size enum
                     return size;
                 default:
-                    // The string does not match any value from the SizeRingsBracelets enum
-                    return null;
-            }
-        }
-
-        public string? VerifySizeWatches(string size)
-        {
-            switch (size)
-            {
-                case nameof(WebAppEnum.SizeWatches.mm40):
-                case nameof(WebAppEnum.SizeWatches.mm44):
-                case nameof(WebAppEnum.SizeWatches.mm45):
-                    // The string matches a value from the SizeWatches enum
-                    return size;
-                default:
-                    // The string does not match any value from the SizeWatches enum
+                    // The string does not match any value from the Size enum
                     return null;
             }
         }

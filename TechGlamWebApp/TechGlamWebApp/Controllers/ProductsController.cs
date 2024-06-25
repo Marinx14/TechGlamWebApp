@@ -27,8 +27,7 @@ namespace WebApp.Controllers
                 Quantity = p.Quantity,
                 Category = p.Category.ToString(),
                 Color = p.Color,
-                SizeRingsBracelets = (p.Category == WebAppEnum.Category.Rings || p.Category == WebAppEnum.Category.Bracelets) ? p.SizeRingsBracelets : (WebAppEnum.SizeRingsBracelets?)null,
-                SizeWatches = (p.Category == WebAppEnum.Category.Watches) ? p.SizeWatches as WebAppEnum.SizeWatches? : (WebAppEnum.SizeWatches?)null,
+                Size = (p.Category == WebAppEnum.Category.Rings || p.Category == WebAppEnum.Category.Bracelets  || p.Category == WebAppEnum.Category.Watches) ? p.Size : (WebAppEnum.Size?)null,
                 MetalType = p.MetalType
             }).ToList(); // Ensure IQueryable is converted to List
 
@@ -47,8 +46,7 @@ namespace WebApp.Controllers
                 Quantity = p.Quantity,
                 Category = p.Category.ToString(),
                 Color = p.Color,
-                SizeRingsBracelets = (p.Category == WebAppEnum.Category.Rings || p.Category == WebAppEnum.Category.Bracelets) ? p.SizeRingsBracelets : (WebAppEnum.SizeRingsBracelets?)null,
-                SizeWatches = (p.Category == WebAppEnum.Category.Watches) ? (WebAppEnum.SizeWatches?)p.SizeWatches : (WebAppEnum.SizeWatches?)null,
+                Size = (p.Category == WebAppEnum.Category.Rings || p.Category == WebAppEnum.Category.Bracelets|| p.Category == WebAppEnum.Category.Watches) ? p.Size : (WebAppEnum.Size?)null,
                 MetalType = p.MetalType
             }).FirstOrDefault();
 

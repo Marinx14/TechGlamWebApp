@@ -18,7 +18,7 @@ namespace WebApp.Models
 
         // Constructor initializing base properties and new characteristics
         public SmartBracelet(string name, string image, string description, decimal price, WebAppEnum.Category category,
-                          string color, WebAppEnum.SizeRingsBracelets size, bool healthMonitoring, bool activityTracking,
+                          string color, WebAppEnum.Size size, bool healthMonitoring, bool activityTracking,
                           bool notifications, bool securityFeatures, bool waterproof, double batteryLife, string compatibility,
                           string displayType, bool gps, bool heartRateMonitor) :
                base(name, image, description, price, category, color, size)

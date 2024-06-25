@@ -12,8 +12,7 @@ namespace WebApp.ViewModels
         public int Quantity { get; set; }
         public string? Category { get; set; }
         public string? Color { get; set; }
-        public WebAppEnum.SizeRingsBracelets? SizeRingsBracelets { get; set; }
-        public WebAppEnum.SizeWatches? SizeWatches { get; set; } // Nullable for watches only
+        public WebAppEnum.Size? Size { get; set; }
         public string? MetalType { get; set; }
     }
 }

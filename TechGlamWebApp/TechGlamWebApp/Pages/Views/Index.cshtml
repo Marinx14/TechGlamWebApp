@@ -10,7 +10,7 @@
         <p>@product.Description</p>
         <p>Price: @product.Price</p>
         <p>Category: @product.Category</p>
-        <p>Size: @(product.Category == "Watches" ? product.SizeWatches.ToString() : product.SizeRingsBracelets.ToString())</p>
+        <p>Size: @product.Category </p>
         <p>Color: @product.Color</p>
         <p>Metal: @product.MetalType</p>
         <a href="@Url.Action("Details", "Products", new { id = product.ProductID })">Details</a>

@@ -65,25 +65,16 @@
 
                 <!-- Dropdown for product size -->
                 <div class="col-12 mt-4">
-                    <label asp-for="SizeRingsBracelets" class="control-label">Size (Rings and Bracelets)</label>
-                    <select asp-for="SizeRingsBracelets" class="form-control" required>
+                    <label asp-for="Size" class="control-label">Size (Rings, Bracelets e Watches)</label>
+                    <select asp-for="Size" class="form-control" required>
                         <option value="S">S</option>
                         <option value="M">M</option>
                         <option value="L">L</option>
                         <option value="XL">XL</option>
                     </select>
-                    <span asp-validation-for="SizeWatches" class="text-danger"></span>
+                    <span asp-validation-for="Size" class="text-danger"></span>
                 </div>
 
-                <div class="col-12 mt-4">
-                    <label asp-for="SizeWatches" class="control-label">Size (Watches)</label>
-                    <select asp-for="SizeWatches" class="form-control" required>
-                        <option value="40">40 mm</option>
-                        <option value="44">44 mm</option>
-                        <option value="45">45 mm</option>
-                    </select>
-                    <span asp-validation-for="SizeWatches" class="text-danger"></span>
-                </div>
 
                 <!-- Input field for product color -->
                 <div class="col-12 mt-4">

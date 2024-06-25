@@ -43,7 +43,7 @@ public class ClonedProduct
     /// <summary>
     /// Gets or sets the size of the product.
     /// </summary>
-    public WebAppEnum.SizeRingsBracelets Size { get; set; }
+    public WebAppEnum.Size Size { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the product.
@@ -83,7 +83,7 @@ public class ClonedProduct
         Description = product.Description;
         Price = product.Price;
         Category = product.Category;
-        Size = product.SizeWatches;
+        Size = product.Size;
         Color = product.Color;
     }
 }

@@ -14,7 +14,7 @@ namespace WebApp.Models
     /// </summary>
     public abstract class Product
     {
-        private WebAppEnum.SizeRingsBracelets size;
+        private WebAppEnum.Size size;
 
 
         /// <summary>
@@ -60,10 +60,7 @@ namespace WebApp.Models
         /// Gets or sets the size of the product.
         /// </summary>
         
-        public WebAppEnum.SizeRingsBracelets SizeRingsBracelets { get; set; }
-        
-        
-        public WebAppEnum.SizeRingsBracelets SizeWatches { get; set; }
+        public WebAppEnum.Size Size { get; set; }
         public string MetalType { get; set; }
 
 
@@ -92,7 +89,7 @@ namespace WebApp.Models
         /// <param name="color">The color of the product.</param>
 
         public Product(string name, string image, string description, decimal price, WebAppEnum.Category category,
-                       string color, WebAppEnum.SizeRingsBracelets sizerb, WebAppEnum.SizeRingsBracelets sizew, string metalType)
+                       string color, WebAppEnum.Size size, string metalType)
             : this()
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "The name cannot be null.");
@@ -101,24 +98,11 @@ namespace WebApp.Models
             Price = price;
             Category = category;
             Color = color ?? throw new ArgumentNullException(nameof(color), "The color cannot be null.");
-            SizeRingsBracelets = sizerb;
-            SizeWatches = sizew;
+            Size = size;
             MetalType = metalType;
         }
 
-        /*protected Product(string name, string image, string description, decimal price, WebAppEnum.Category category, string color, WebAppEnum.SizeRingsBracelets size, string metalType)
-        {
-            Name = name;
-            Image = image;
-            Description = description;
-            Price = price;
-            Category = category;
-            Color = color;
-            this.size = size;
-            MetalType = metalType ?? throw new ArgumentNullException(nameof(metalType), "The metal type cannot be null.");
-        }*/
-
-        protected Product(string name, string image, string description, decimal price, WebAppEnum.Category category, string color, WebAppEnum.SizeRingsBracelets sizerb)
+        protected Product(string name, string image, string description, decimal price, WebAppEnum.Category category, string color, WebAppEnum.Size size)
         {
             Name = name;
             Image = image;

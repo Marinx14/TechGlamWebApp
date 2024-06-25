@@ -33,7 +33,7 @@ namespace WebApp.Models
         /// <param name="securityFeatures">Indicates if security features are available.</param>
         /// <param name="waterproof">Indicates if the smart ring is waterproof.</param>
         public SmartRing(string name, string image, string description, decimal price, WebAppEnum.Category category,
-                          string color, WebAppEnum.SizeRingsBracelets size, string metalType, bool healthMonitoring, bool activityTracking,
+                          string color, WebAppEnum.Size size, string metalType, bool healthMonitoring, bool activityTracking,
                           bool notifications, bool securityFeatures, bool waterproof) :
                base(name, image, description, price, category, color, size)
         {
