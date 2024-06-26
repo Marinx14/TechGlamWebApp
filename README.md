@@ -1,7 +1,9 @@
 Relazione Applicazione Web 
+
 Esame di Applicazioni Web Mobile 
 L'applicazione presentata ha come obiettivo la gestione efficiente di una vetrina online specializzata in articoli dedicati ad anelli e bracciali tech: accessori eleganti e al contempo funzionali. La piattaforma è progettata per offrire agli utenti un'esperienza di navigazione intuitiva e personalizzata, facilitando la scoperta e l'acquisto di prodotti che uniscono stile e tecnologia.
 Entità del sistema e le loro relazioni
+
 1.Utenti
 Gli utenti sono la componente umana che interagisce con la nostra applicazione. Essi possono:
 •	Aggiungere al Carrello: Gli utenti possono esplorare il catalogo e aggiungere prodotti ed articoli a un carrello temporaneo.
@@ -53,6 +55,7 @@ Le potenzialità di crescita dell'applicazione sono significative. In futuro, sa
 -  Recensioni e feedback: Un sistema di recensioni più interattivo, che permetta agli utenti di lasciare feedback dettagliati e valutazioni sui prodotti acquistati, contribuendo a creare una comunità attiva e informata.
 -  Integrazione con social media: Funzionalità che permettano agli utenti di condividere i loro acquisti e le loro esperienze sui principali social network, aumentando la visibilità del negozio e attraendo nuovi clienti.
 -  Programmi di fedeltà e promozioni: Implementazione di programmi di fedeltà che offrano sconti, punti e promozioni esclusive agli utenti più assidui, incentivando così gli acquisti ripetuti.
+-  
 L'integrazione di queste funzionalità non solo migliorerà l'esperienza complessiva degli utenti, ma aumenterà anche la competitività del negozio online nel mercato tecnologico. Con una continua attenzione all'innovazione e alla qualità del servizio, l'applicazione ha il potenziale per diventare un punto di riferimento nel settore delle vendite online di articoli tecnologici di tendenza.
 
 
