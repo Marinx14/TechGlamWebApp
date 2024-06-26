@@ -60,6 +60,8 @@ public class ClonedProduct
     /// </summary>
     public virtual Cart AssociatedCart { get; set; }
 
+    public static object? NameOf { get; set; }
+
     // Uncomment these properties if you want to link orders as well.
     // public Guid AssociatedOrderID { get; set; }
     // public virtual Order AssociatedOrder { get; set; }
