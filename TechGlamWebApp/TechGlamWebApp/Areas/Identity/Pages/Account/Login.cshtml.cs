@@ -83,7 +83,7 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
         {
             if (User.Identity.IsAuthenticated)
             {
-                Response.Redirect("~/Views/Vetrina/Index.cshtml");
+                Response.Redirect("~/Views/Home/Index.cshtml");
             }
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
