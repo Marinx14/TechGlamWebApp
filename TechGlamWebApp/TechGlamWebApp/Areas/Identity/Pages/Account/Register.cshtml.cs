@@ -71,13 +71,13 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Nome")]
-            public string Nome { get; set; }
+            [Display(Name = "Name")]
+            public string Name { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Cognome")]
-            public string Cognome { get; set; }
+            [Display(Name = "Surname")]
+            public string Surname { get; set; }
 
             [Required]
             [EmailAddress]
@@ -85,11 +85,11 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [DataType(DataType.Date)]
-            [Display(Name = "Data di nascita")]
-            public DateTime DataNascita { get; set; }
+            [Display(Name = "Birth")]
+            public DateTime Birth { get; set; }
 
             [DataType(DataType.PhoneNumber)]
-            [Display(Name = "Cellulare")]
+            [Display(Name = "PhoneNumber")]
             public string PhoneNumber { get; set; }
 
             /// <summary>
@@ -130,9 +130,9 @@ namespace TechGlamWebApp.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var User = CreateUser();
-                User.Name = Input.Nome;
-                User.Surname = Input.Cognome;
-                User.BirthDate = Input.DataNascita;
+                User.Name = Input.Name;
+                User.Surname = Input.Surname;
+                User.BirthDate = Input.Birth;
                 User.PhoneNumber = Input.PhoneNumber;
 
                 await _UserStore.SetUserNameAsync(User, Input.Email, CancellationToken.None);
