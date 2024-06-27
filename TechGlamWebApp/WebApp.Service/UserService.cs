@@ -23,17 +23,6 @@ namespace WebApp.UServices
         {
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
-
-        /// <summary>
-        /// Checks if an email is already associated with an existing user.
-        /// </summary>
-        /// <param name="email">The email to check.</param>
-        /// <returns>True if the email is already in use, otherwise false.</returns>
-        public async Task<bool> ControlloMail(string email)
-        {
-            return await _dbContext.Users.AnyAsync(u => u.Email == email);
-        }
-
         /// <summary>
         /// Updates a user.
         /// </summary>
