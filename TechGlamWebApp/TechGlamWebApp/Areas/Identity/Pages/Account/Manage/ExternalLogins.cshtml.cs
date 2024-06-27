@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TechGlamWebApp.Models;
-using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {

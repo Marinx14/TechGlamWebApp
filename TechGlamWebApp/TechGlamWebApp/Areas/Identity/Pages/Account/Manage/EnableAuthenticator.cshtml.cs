@@ -10,7 +10,6 @@ using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
 using TechGlamWebApp.Models;
-using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account.Manage
 {

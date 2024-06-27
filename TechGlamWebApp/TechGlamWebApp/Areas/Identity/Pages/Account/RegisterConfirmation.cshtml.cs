@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using TechGlamWebApp.Models;
-using WebApp.Models;
 
 namespace TechGlamWebApp.Areas.Identity.Pages.Account
 {

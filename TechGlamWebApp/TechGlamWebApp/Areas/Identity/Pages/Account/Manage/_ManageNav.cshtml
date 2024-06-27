@@ -1,6 +1,5 @@
 ﻿@using TechGlamWebApp.Areas.Identity.Pages.Account.Manage
-@using WebApp.Models
-@using WebApp.Models
+@using TechGlamWebApp.Models
 @inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
